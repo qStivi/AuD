@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Stivi:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Stivi_jar</output-path>
+    <root id="archive" name="Stivi.jar">
+      <element id="module-output" name="Stivi" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.33/slf4j-api-1.7.33.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-simple/1.7.33/slf4j-simple-1.7.33.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
