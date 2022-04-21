@@ -58,6 +58,8 @@ public class SearchTools {
         return result;
     }
 
+    public static int count = 0;
+
     public static void insertionSort(int[] a) {
 
         for (int j = 1; j <= a.length - 1; j++) {
@@ -65,9 +67,11 @@ public class SearchTools {
             int s = a[j];
             int i = j - 1;
 
+            count++;
             while (i >= 0 && a[i] > s) {
                 a[i + 1] = a[i];
                 i = i - 1;
+                count++;
             }
 
             a[i + 1] = s;
@@ -94,68 +98,73 @@ public class SearchTools {
 
     public static void main(String... args) {
 
-        final int RUNS = 10;
+        //insertionSort(new int[]{2, 3, 4, 5, 6, 7, 8, 2, 1});
+        //insertionSort(new int[]{1, 5, 1, 6, 1, 7, 1, 8});
+        insertionSort(new int[]{1,3,1,4});
+        System.out.println(count);
 
-        long average1 = 0;
-        long average2 = 0;
-        long average3 = 0;
-        long average4 = 0;
-        long average5 = 0;
-
-        for (int i = 0; i < RUNS; i++) {
-            long start = System.nanoTime();
-            insertionSort(createSequenceDec(100));
-            long end = System.nanoTime();
-            long time = end - start;
-            average1 = average1 + time;
-        }
-
-        for (int i = 0; i < RUNS; i++) {
-            long start = System.nanoTime();
-            insertionSort(createSequenceDec(1000));
-            long end = System.nanoTime();
-            long time = end - start;
-            average2 = average2 + time;
-        }
-
-        for (int i = 0; i < RUNS; i++) {
-            long start = System.nanoTime();
-            insertionSort(createSequenceDec(10000));
-            long end = System.nanoTime();
-            long time = end - start;
-            average3 = average3 + time;
-        }
-
-        for (int i = 0; i < RUNS; i++) {
-            long start = System.nanoTime();
-            insertionSort(createSequenceDec(100000));
-            long end = System.nanoTime();
-            long time = end - start;
-            average4 = average4 + time;
-        }
-
-        for (int i = 0; i < RUNS; i++) {
-            long start = System.nanoTime();
-            insertionSort(createSequenceDec(200000));
-            long end = System.nanoTime();
-            long time = end - start;
-            average5 = average5 + time;
-        }
-
-        average1 = average1 / RUNS;
-        System.out.println("Average 100: " + average1);
-
-        average2 = average2 / RUNS;
-        System.out.println("Average 1000: " + average2);
-
-        average3 = average3 / RUNS;
-        System.out.println("Average 10000: " + average3);
-
-        average4 = average4 / RUNS;
-        System.out.println("Average 100000: " + average4);
-
-        average5 = average5 / RUNS;
-        System.out.println("Average 200000: " + average5);
+//        final int RUNS = 10;
+//
+//        long average1 = 0;
+//        long average2 = 0;
+//        long average3 = 0;
+//        long average4 = 0;
+//        long average5 = 0;
+//
+//        for (int i = 0; i < RUNS; i++) {
+//            long start = System.nanoTime();
+//            insertionSort(createSequenceDec(100));
+//            long end = System.nanoTime();
+//            long time = end - start;
+//            average1 = average1 + time;
+//        }
+//
+//        for (int i = 0; i < RUNS; i++) {
+//            long start = System.nanoTime();
+//            insertionSort(createSequenceDec(1000));
+//            long end = System.nanoTime();
+//            long time = end - start;
+//            average2 = average2 + time;
+//        }
+//
+//        for (int i = 0; i < RUNS; i++) {
+//            long start = System.nanoTime();
+//            insertionSort(createSequenceDec(10000));
+//            long end = System.nanoTime();
+//            long time = end - start;
+//            average3 = average3 + time;
+//        }
+//
+//        for (int i = 0; i < RUNS; i++) {
+//            long start = System.nanoTime();
+//            insertionSort(createSequenceDec(100000));
+//            long end = System.nanoTime();
+//            long time = end - start;
+//            average4 = average4 + time;
+//        }
+//
+//        for (int i = 0; i < RUNS; i++) {
+//            long start = System.nanoTime();
+//            insertionSort(createSequenceDec(200000));
+//            long end = System.nanoTime();
+//            long time = end - start;
+//            average5 = average5 + time;
+//        }
+//
+//        average1 = average1 / RUNS;
+//        System.out.println("Average 100: " + average1);
+//
+//        average2 = average2 / RUNS;
+//        System.out.println("Average 1000: " + average2);
+//
+//        average3 = average3 / RUNS;
+//        System.out.println("Average 10000: " + average3);
+//
+//        average4 = average4 / RUNS;
+//        System.out.println("Average 100000: " + average4);
+//
+//        average5 = average5 / RUNS;
+//        System.out.println("Average 200000: " + average5);
 
     }
 
