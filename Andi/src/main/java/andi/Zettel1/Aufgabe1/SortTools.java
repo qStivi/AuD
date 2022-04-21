@@ -35,17 +35,17 @@ public class SortTools {
         System.out.println((timeEnd - timeStart) + " ns");
     }
 
-    /* public static <T> void insertionSortGen(T[] a) {
+    public static <T extends Comparable<T>> void insertionSortGen(T[] a) {
         for (int j = 1; j < a.length; j++) {
             T s = a[j];
             int i = j - 1;
-            while (i >= 0 && s < a[i]) {
+            while (i >= 0 && s.compareTo(a[i]) < 0) {
                 a[i + 1] = a[i];
                 i--;
             }
             a[i + 1] = s;
         }
-    }*/
+    }
 
     public static void insertionSort(int[] a) {
         for (int j = 1; j < a.length; j++) {
