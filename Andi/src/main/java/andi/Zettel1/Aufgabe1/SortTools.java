@@ -1,23 +1,11 @@
 package andi.Zettel1.Aufgabe1;
 
+import java.util.Arrays;
+
 public class SortTools {
 
-    /*
-    Messungen:
-    1. 8188034400 ns
-    2. 8067841700 ns
-    3. 8063164300 ns
-    4. 8137629900 ns
-    5. 8055539600 ns
-    6. 8091639200 ns
-    7. 8043909500 ns
-    8. 8053188900 ns
-    9. 8039996500 ns
-    10. 8024955900 ns
-     */
-
     public static void main(String[] args) {
-        final long timeStart = System.nanoTime();
+        /*final long timeStart = System.nanoTime();
 
         int[] arr1 = createSequenceDec(100);
         int[] arr2 = createSequenceDec(1000);
@@ -33,6 +21,51 @@ public class SortTools {
 
         final long timeEnd = System.nanoTime();
         System.out.println((timeEnd - timeStart) + " ns");
+        */
+
+        int[] arr1 = createSequenceRand(100);
+        int[] arr2 = createSequenceRand(100);
+        bubbleSortNew(arr2);
+        bubbleSort(arr1);
+
+        for (int ele : arr2) {
+            System.out.println(ele);
+        }
+
+    }
+
+    public static void bubbleSort(int[] a) {
+        for (int i = a.length - 1; i > 0; i--) {
+            for (int j = 0; j < a.length - 1; j++) {
+                if (a[j] > a[j + 1]) {
+                    int temp = a[j];
+                    a[j] = a[j + 1];
+                    a[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    public static void bubbleSortNew(int[] a) {
+        for (int i = 1; i < a.length; i++) {
+            for (int j = 0; j < a.length - 1; j++) {
+                int[] temp = new int[11];
+                System.arraycopy(a, j, temp, 0, j + 10);
+                insertionSort(temp);
+            }
+        }
+    }
+
+    public static <T extends Comparable<T>> void bubbleSortGen(T[] a) {
+        for (int i = a.length - 1; i > 0; i--) {
+            for (int j = 0; j < a.length - 1; j++) {
+                if (a[j].compareTo(a[j + 1]) > 0) {
+                    T temp = a[j];
+                    a[j] = a[j + 1];
+                    a[j + 1] = temp;
+                }
+            }
+        }
     }
 
     public static <T extends Comparable<T>> void insertionSortGen(T[] a) {
