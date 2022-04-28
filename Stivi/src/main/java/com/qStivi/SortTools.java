@@ -82,6 +82,23 @@ public class SortTools {
         }
     }
 
+    public static void mergeSort(int[] A) {
+        mergeSortRec(A, A[0], A[A.length - 1]);
+    }
+
+    private static void mergeSortRec(int[] A, int p, int r) {
+        if (p < r) {
+            var q = (p + r) / 2;
+            mergeSortRec(A, p, q);
+            mergeSortRec(A, q + 1, r);
+            merge(A, p, q, r);
+        }
+    }
+
+    private static void merge(int[] a, int p, int q, int r) {
+
+    }
+
     public static <T extends Comparable<T>> void bubbleSortGen(T[] A) {
         for (int i = A.length - 1; i >= 1; i--) {
             for (int j = 0; j < i; j++) {
@@ -92,13 +109,36 @@ public class SortTools {
         }
     }
 
+    public static void insertionSort(int[] a, int start, int end) {
+
+        for (int j = start + 1; j <= end; j++) {
+
+            int s = a[j];
+            int i = j - 1;
+
+            while (i >= start && a[i] > s) {
+                a[i + 1] = a[i];
+                i = i - 1;
+            }
+
+            a[i + 1] = s;
+        }
+
+    }
+
     public static void bubbleSortNew(int[] A) {
-        for (int i = A.length - 1; i >= 1; i--) {
-            for (int j = 0; j < i - 8; j++) {
-                var temp = new int[10];
-                System.arraycopy(A, j, temp, 0, 10);
-                insertionSort(temp);
-                System.arraycopy(temp, 0, A, j, 10);
+        var x = 10;
+        var y = 10;
+        if (A.length <= 10) {
+            x = 0;
+            y = A.length - 1;
+        }
+        for (int i = A.length - x; i >= 1; i--) {
+            for (int j = 0; j < i; j++) {
+                if (j + y >= A.length) {
+                    y--;
+                }
+                insertionSort(A, j, j + y);
             }
         }
     }
@@ -153,11 +193,11 @@ public class SortTools {
     /*
     Average runtimes (NUMBER_OF_ITERATIONS = 10)
 
-    n=100: 71174
-    n=1000: 598825
-    n=10000: 12900924
-    n=100000: 1252378954
-    n=200000: 4870728483
+    n=100: 71.174
+    n=1000: 59.8825
+    n=10000: 12.900.924
+    n=100000: 125.237.8954
+    n=200000: 4.870.728.483
      */
     public static long getMeanTimeInsertionSort(int[] array) {
         var meanTime = 0L;
@@ -173,7 +213,7 @@ public class SortTools {
 
             long diff = endTimer - startTimer; // Calculate runtime
 
-            // logger.info(String.valueOf(diff)); // TODO Why do get random sporadic high values when NUMBER_OF_ITERATIONS is a large value?
+//             logger.info(String.valueOf(diff)); // TODO Why do get random sporadic high values when NUMBER_OF_ITERATIONS is a large value?
 
             meanTime += diff; // add difference to total
         }
@@ -183,11 +223,11 @@ public class SortTools {
     /*
     Average runtimes (NUMBER_OF_ITERATIONS = 10)
 
-    n=100: 138271
-    n=1000: 608595
-    n=10000: 18664937
-    n=100000: 1971782800
-    n=200000: 7878594274
+    n=100: 138.271
+    n=1000: 608.595
+    n=10000: 18.664.937
+    n=100000: 1.971.782.800
+    n=200000: 7.878.594.274
      */
     public static long getMeanTimeBubbleSort(int[] array) {
         var meanTime = 0L;
@@ -214,11 +254,11 @@ public class SortTools {
     /*
     Average runtimes (NUMBER_OF_ITERATIONS = 10)
 
-    n=100: 1080304
-    n=1000: 9785691
-    n=10000: 808150183
-    n=100000: 79717190346
-    n=200000: 318326093637
+    n=100: 1.080.304
+    n=1000: 9.785.691
+    n=10000: 808.150.183
+    n=100000: 79.717.190.346
+    n=200000: 318.326.093.637
      */
     public static long getMeanTimeBubbleSortNew(int[] array) {
         var meanTime = 0L;

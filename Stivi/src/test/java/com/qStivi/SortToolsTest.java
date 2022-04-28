@@ -58,6 +58,12 @@ class SortToolsTest {
         var arr = SortTools.createSequenceDec(33);
         SortTools.bubbleSortNew(arr);
         assertArrayEquals(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33}, arr);
+        var arr2 = SortTools.createSequenceDec(10);
+        SortTools.bubbleSortNew(arr2);
+        assertArrayEquals(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, arr2);
+        var arr3 = SortTools.createSequenceDec(3);
+        SortTools.bubbleSortNew(arr3);
+        assertArrayEquals(new int[]{1, 2, 3}, arr3);
     }
 
     @Test
