@@ -257,11 +257,11 @@ public class SortTools {
     /*
     Average runtimes (NUMBER_OF_ITERATIONS = 10)
 
-    n=100: 138.271
-    n=1000: 608.595
-    n=10000: 18.664.937
-    n=100000: 1.971.782.800
-    n=200000: 7.878.594.274
+    n = 100:    136174
+    n = 1000:   616062
+    n = 10000:  18298508
+    n = 100000: 1936414066
+    n = 200000: 7692864841
      */
     public static long getMeanTimeBubbleSort(int[] array) {
         var meanTime = 0L;
@@ -287,11 +287,11 @@ public class SortTools {
     /*
     Average runtimes (NUMBER_OF_ITERATIONS = 10)
 
-    n=100: 1.080.304
-    n=1000: 9.785.691
-    n=10000: 808.150.183
-    n=100000: 79.717.190.346
-    n=200000: 318.326.093.637
+    n = 100:    232666
+    n = 1000:   5665833
+    n = 10000:  545436400
+    n = 100000: 56007505679
+    n = 200000: 223766426191
      */
     public static long getMeanTimeBubbleSortNew(int[] array) {
         var meanTime = 0L;
@@ -318,11 +318,11 @@ public class SortTools {
     /*
     Average runtimes (NUMBER_OF_ITERATIONS = 10)
 
-    n=100: 71.174
-    n=1000: 59.8825
-    n=10000: 12.900.924
-    n=100000: 125.237.8954
-    n=200000: 4.870.728.483
+    n = 100:    69962
+    n = 1000:   723237
+    n = 10000:  11882270
+    n = 100000: 1071934204
+    n = 200000: 4252841279
      */
     public static long getMeanTimeInsertionSort(int[] array) {
         var meanTime = 0L;
