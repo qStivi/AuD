@@ -277,8 +277,6 @@ public class SortTools {
 
             long diff = endTimer - startTimer; // Calculate runtime
 
-            // logger.info(String.valueOf(diff)); // TODO Why do get random sporadic high values when NUMBER_OF_ITERATIONS is a large value?
-
             meanTime += diff; // add difference to total
         }
         return meanTime / NUMBER_OF_ITERATIONS; // divide total by number of iterations
@@ -307,14 +305,12 @@ public class SortTools {
 
             long diff = endTimer - startTimer; // Calculate runtime
 
-            // logger.info(String.valueOf(diff)); // TODO Why do get random sporadic high values when NUMBER_OF_ITERATIONS is a large value?
-
             meanTime += diff; // add difference to total
         }
         return meanTime / NUMBER_OF_ITERATIONS; // divide total by number of iterations
     }
 
-    // TODO Why do the average times get smaller when I increase NUMBER_OF_ITERATIONS????!!!
+
     /*
     Average runtimes (NUMBER_OF_ITERATIONS = 10)
 
@@ -337,8 +333,6 @@ public class SortTools {
             var endTimer = System.nanoTime(); // Get end time
 
             long diff = endTimer - startTimer; // Calculate runtime
-
-//             logger.info(String.valueOf(diff)); // TODO Why do get random sporadic high values when NUMBER_OF_ITERATIONS is a large value?
 
             meanTime += diff; // add difference to total
         }
