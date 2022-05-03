@@ -1,6 +1,8 @@
 package julian;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class SortTools {
@@ -146,41 +148,6 @@ public class SortTools {
 
     }
 
-    public static long doSomething(int[] a) {
-        long x = -1;
-        for(int i = 0; i < a.length; i++) {
-            for(int j = 0; j < a.length; j++) {
-                if(i != j) {
-                    if((long) a[i] * a[j] > x) {
-                        x = (long) a[i] * a[j];
-                    }
-                }
-            }
-        }
-        return x;
-    }
-
-    public static long doSomething2(int[] a) {
-        long x = -1;
-        int xIndex = -1;
-        long y = -1;
-
-        for(int i = 0; i < a.length; i++) {
-            if(a[i] > x) {
-                x = a[i];
-                xIndex = i;
-            }
-        }
-
-        for(int j = 0; j < a.length; j++) {
-            if(a[j] > y && j != xIndex) {
-                y = a[j];
-            }
-        }
-
-        return x * y;
-    }
-
     public static <T extends Comparable<T>> void bubbleSortGen(T[] a) {
 
         for(int i = a.length - 1; i >= 1; i--) {
@@ -193,170 +160,334 @@ public class SortTools {
 
     }
 
+    public static void mergeSort(int[] a) {
+        mergeSortHelp(a, 0, a.length - 1);
+    }
+
+    public static void mergeSortHelp(int[] a, int p, int r) {
+
+        if(p < r) {
+             int q = (int) Math.floor((p + r) / 2.0);
+             mergeSortHelp(a, p, q);
+             mergeSortHelp(a, q + 1, r);
+             merge(a, p, q, r);
+        }
+
+    }
+
+    public static void merge(int[] a, int p, int q, int r) {
+
+        int n1 = q - p + 1;
+        int n2 = r - q;
+
+        int[] left = new int[n1];
+        int[] right = new int[n2];
+
+        for(int i = 0; i < n1; i++) {
+            left[i] = a[p + i];
+        }
+
+        for(int j = 0; j < n2; j++) {
+            right[j] = a[q + j + 1];
+        }
+
+        int i = 0;
+        int j = 0;
+
+        int k = p;
+
+        while(i < left.length && j < right.length && k <= r) {
+            if(left[i] <= right[j]) {
+                a[k] = left[i];
+                i++;
+            } else {
+                a[k] = right[j];
+                j++;
+            }
+            k++;
+        }
+
+        while(i < left.length) {
+            a[k] = left[i];
+            i++;
+            k++;
+        }
+
+        while(j < right.length) {
+            a[k] = right[j];
+            j++;
+            k++;
+        }
+
+    }
+
+    public static void mergeSortNew(int[] a) {
+        mergeSortNewHelper(a, 0, a.length - 1);
+    }
+
+    public static void mergeSortNewHelper(int[] a, int p, int r) { //p = StartIndex im Array, r = Endindex Im array
+
+        if(p < r) {
+            int x = (int) Math.round((r - p + 1) / 3.0);
+            int q1 = x - 1 + p;
+            int q2 = q1 + x;
+
+            mergeSortNewHelper(a, p, q1);
+            mergeSortNewHelper(a, q1 + 1, q2);
+            mergeSortNewHelper(a, q2 + 1, r);
+
+            mergeNew(a, p, q1, q2, r);
+        }
+    }
+
+    public static void mergeNew(int[] a, int p, int q1, int q2, int r) { //Sollte funktionieren
+
+        int n1 = q1 - p + 1;
+        int n2 = q2 - q1;
+        int n3 = r - q2;
+
+        int[] left = new int[n1 + 1];
+        int[] middle = new int[n2 + 1];
+        int[] right = new int[n3 + 1];
+
+        for(int i = 0; i < n1; i++) {
+            left[i] = a[p + i];
+        }
+
+        left[left.length - 1] = Integer.MAX_VALUE;
+
+        for(int i = 0; i < n2; i++) {
+            middle[i] = a[q1 + 1 + i];
+        }
+
+        middle[middle.length - 1] = Integer.MAX_VALUE;
+
+        for(int i = 0; i < n3; i++) {
+            right[i] = a[q2 + 1 + i];
+        }
+
+        right[right.length - 1] = Integer.MAX_VALUE;
+
+        int leftPointer = 0;
+        int middlePointer = 0;
+        int rightPointer = 0;
+
+        for(int k = p; k <= r; k++) {
+            if(left[leftPointer] <= middle[middlePointer] && left[leftPointer] <= right[rightPointer]) {
+                a[k] = left[leftPointer++];
+            } else if(middle[middlePointer] <= right[rightPointer] && middle[middlePointer] <= left[leftPointer]) {
+                a[k] = middle[middlePointer++];
+            } else {
+                a[k] = right[rightPointer++];
+            }
+        }
+    }
+
+    public static <T extends Comparable<T>> void mergeSortGen(T[] a) {
+        mergeSortGenHelp(a, 0, a.length - 1);
+    }
+
+    public static <T extends Comparable<T>> void mergeSortGenHelp(T[] a, int p, int r) {
+
+        if(p < r) {
+            int q = (int) Math.floor((p + r) / 2.0);
+            mergeSortGenHelp(a, p, q);
+            mergeSortGenHelp(a, q + 1, r);
+            mergeGen(a, p, q, r);
+        }
+
+    }
+
+    public static <T extends Comparable<T>> void mergeGen(T[] a, int p, int q, int r) {
+
+        int n1 = q - p + 1;
+        int n2 = r - q;
+
+        List<T> left = new ArrayList<>(n1);
+        List<T> right = new ArrayList<>(n2);
+
+        for(int i = 0; i < n1; i++) {
+            left.add(i, a[p + i]);
+        }
+
+        for(int j = 0; j < n2; j++) {
+            right.add(j, a[q + j + 1]);
+        }
+
+        int i = 0;
+        int j = 0;
+
+        int k = p;
+
+        while(i < left.size() && j < right.size() && k <= r) {
+            if(left.get(i).compareTo(right.get(j)) <= 0) {
+                a[k] = left.get(i);
+                i++;
+            } else {
+                a[k] = right.get(j);
+                j++;
+            }
+            k++;
+        }
+
+        while(i < left.size()) {
+            a[k] = left.get(i);
+            i++;
+            k++;
+        }
+
+        while(j < right.size()) {
+            a[k] = right.get(j);
+            j++;
+            k++;
+        }
+    }
+
+    public static long testSort(int[] a, String algorithm, int runs) { //array, welcher Sortieralgorithmus, wie oft ausführen -> gemittelte Zeit
+
+        long sum = 0;
+
+        for(int i = 1; i <= runs; i++) {
+
+            int[] arrayCopy = Arrays.copyOf(a, a.length);
+
+            if(algorithm.equalsIgnoreCase("insertionSort")) {
+                long start = System.nanoTime();
+                insertionSort(arrayCopy);
+                long end = System.nanoTime();
+                sum = sum + ((end - start) / runs);
+            } else if(algorithm.equalsIgnoreCase("mergeSort")) {
+                long start = System.nanoTime();
+                mergeSort(arrayCopy);
+                long end = System.nanoTime();
+                sum = sum + ((end - start) / runs);
+            } else if(algorithm.equalsIgnoreCase("mergeSortNew")) {
+                long start = System.nanoTime();
+                mergeSortNew(arrayCopy);
+                long end = System.nanoTime();
+                sum = sum + ((end - start) / runs);
+            }
+        }
+
+        return sum;
+    }
+
+
     public static void main(String... args) {
 
-        final int runs = 10;
+        int[] arr100asc = createSequenceInc(100);
+        int[] arr1000asc = createSequenceInc(1000);
+        int[] arr10000asc = createSequenceInc(10000);
+        int[] arr100000asc = createSequenceInc(100000);
+        int[] arr200000asc = createSequenceInc(200000);
 
-        int arr100[] = createSequenceRand(100);
-        int arr1000[] = createSequenceRand(1000);
-        int arr10000[] = createSequenceRand(10000);
-        int arr100000[] = createSequenceRand(100000);
+        int[] arr100desc = createSequenceDec(100);
+        int[] arr1000desc = createSequenceDec(1000);
+        int[] arr10000desc = createSequenceDec(10000);
+        int[] arr100000desc = createSequenceDec(100000);
+        int[] arr200000desc = createSequenceDec(200000);
 
-        long time100averageInsertionSort = 0;
-        long time1000averageInsertionSort = 0;
-        long time10000averageInsertionSort = 0;
-        long time100000averageInsertionSort = 0;
+        System.out.println("InsertionSort: ");
 
-        for(int i = 0; i < runs; i++) {
-            int[] toSort = Arrays.copyOf(arr100, arr100.length);
-            long startTime = System.nanoTime();
-            insertionSort(toSort);
-            long endTime = System.nanoTime();
-            long time = endTime - startTime;
-            time100averageInsertionSort = time100averageInsertionSort + (time / runs);
-        }
+        System.out.println("Ascending:");
 
-        for(int i = 0; i < runs; i++) {
-            int[] toSort = Arrays.copyOf(arr1000, arr1000.length);
-            long startTime = System.nanoTime();
-            insertionSort(toSort);
-            long endTime = System.nanoTime();
-            long time = endTime - startTime;
-            time1000averageInsertionSort = time1000averageInsertionSort + (time / runs);
-        }
+        System.out.println(testSort(arr100asc, "insertionSort", 10));
+        System.out.println(testSort(arr1000asc, "insertionSort", 10));
+        System.out.println(testSort(arr10000asc, "insertionSort", 10));
+        System.out.println(testSort(arr100000asc, "insertionSort", 10));
+        System.out.println(testSort(arr200000asc, "insertionSort", 10));
 
-        for(int i = 0; i < runs; i++) {
-            int[] toSort = Arrays.copyOf(arr10000, arr10000.length);
-            long startTime = System.nanoTime();
-            insertionSort(toSort);
-            long endTime = System.nanoTime();
-            long time = endTime - startTime;
-            time10000averageInsertionSort = time10000averageInsertionSort + (time / runs);
-        }
+        System.out.println("Descending:");
 
-        for(int i = 0; i < runs; i++) {
-            int[] toSort = Arrays.copyOf(arr100000, arr100000.length);
-            long startTime = System.nanoTime();
-            insertionSort(toSort);
-            long endTime = System.nanoTime();
-            long time = endTime - startTime;
-            time100000averageInsertionSort = time100000averageInsertionSort + (time / runs);
-        }
+        System.out.println(testSort(arr100desc, "insertionSort", 10));
+        System.out.println(testSort(arr1000desc, "insertionSort", 10));
+        System.out.println(testSort(arr10000desc, "insertionSort", 10));
+        System.out.println(testSort(arr100000desc, "insertionSort", 10));
+        System.out.println(testSort(arr200000desc, "insertionSort", 10));
 
-        System.out.println("InsertionSort 100 items: " + time100averageInsertionSort);
-        System.out.println("InsertionSort 1000 items: " + time1000averageInsertionSort);
-        System.out.println("InsertionSort 10000 items: " + time10000averageInsertionSort);
-        System.out.println("InsertionSort 100000 items: " + time100000averageInsertionSort);
+        System.out.println("-------------------------------");
 
-        long time100averageBubbleSort = 0;
-        long time1000averageBubbleSort = 0;
-        long time10000averageBubbleSort = 0;
-        long time100000averageBubbleSort = 0;
+        System.out.println("MergeSort:");
 
-        for(int i = 0; i < runs; i++) {
-            int[] toSort = Arrays.copyOf(arr100, arr100.length);
-            long startTime = System.nanoTime();
-            bubbleSort(toSort);
-            long endTime = System.nanoTime();
-            long time = endTime - startTime;
-            time100averageBubbleSort = time100averageBubbleSort + (time / runs);
-        }
+        System.out.println("Ascending:");
 
-        for(int i = 0; i < runs; i++) {
-            int[] toSort = Arrays.copyOf(arr1000, arr1000.length);
-            long startTime = System.nanoTime();
-            bubbleSort(toSort);
-            long endTime = System.nanoTime();
-            long time = endTime - startTime;
-            time1000averageBubbleSort = time1000averageBubbleSort + (time / runs);
-        }
+        System.out.println(testSort(arr100asc, "mergeSort", 10));
+        System.out.println(testSort(arr1000asc, "mergeSort", 10));
+        System.out.println(testSort(arr10000asc, "mergeSort", 10));
+        System.out.println(testSort(arr100000asc, "mergeSort", 10));
+        System.out.println(testSort(arr200000asc, "mergeSort", 10));
 
-        for(int i = 0; i < runs; i++) {
-            int[] toSort = Arrays.copyOf(arr10000, arr10000.length);
-            long startTime = System.nanoTime();
-            bubbleSort(toSort);
-            long endTime = System.nanoTime();
-            long time = endTime - startTime;
-            time10000averageBubbleSort = time10000averageBubbleSort + (time / runs);
-        }
+        System.out.println("Descending:");
 
-        for(int i = 0; i < runs; i++) {
-            int[] toSort = Arrays.copyOf(arr100000, arr100000.length);
-            long startTime = System.nanoTime();
-            bubbleSort(toSort);
-            long endTime = System.nanoTime();
-            long time = endTime - startTime;
-            time100000averageBubbleSort = time100000averageBubbleSort + (time / runs);
-        }
+        System.out.println(testSort(arr100desc, "mergeSort", 10));
+        System.out.println(testSort(arr1000desc, "mergeSort", 10));
+        System.out.println(testSort(arr10000desc, "mergeSort", 10));
+        System.out.println(testSort(arr100000desc, "mergeSort", 10));
+        System.out.println(testSort(arr200000desc, "mergeSort", 10));
 
-        System.out.println("BubbleSort 100 items: " + time100averageBubbleSort);
-        System.out.println("BubbleSort 1000 items: " + time1000averageBubbleSort);
-        System.out.println("BubbleSort 10000 items: " + time10000averageBubbleSort);
-        System.out.println("BubbleSort 100000 items: " + time100000averageBubbleSort);
+        System.out.println("-----------------------------");
 
-        long time100averageBubbleSortNew = 0;
-        long time1000averageBubbleSortNew = 0;
-        long time10000averageBubbleSortNew = 0;
-        long time100000averageBubbleSortNew = 0;
+        System.out.println("MergeSortNew:");
 
-        for(int i = 0; i < runs; i++) {
-            int[] toSort = Arrays.copyOf(arr100, arr100.length);
-            long startTime = System.nanoTime();
-            bubbleSortNew(toSort);
-            long endTime = System.nanoTime();
-            long time = endTime - startTime;
-            time100averageBubbleSortNew = time100averageBubbleSortNew + (time / runs);
-        }
+        System.out.println("Ascending:");
 
-        for(int i = 0; i < runs; i++) {
-            int[] toSort = Arrays.copyOf(arr1000, arr1000.length);
-            long startTime = System.nanoTime();
-            bubbleSortNew(toSort);
-            long endTime = System.nanoTime();
-            long time = endTime - startTime;
-            time1000averageBubbleSortNew = time1000averageBubbleSortNew + (time / runs);
-        }
+        System.out.println(testSort(arr100asc, "mergeSortNew", 10));
+        System.out.println(testSort(arr1000asc, "mergeSortNew", 10));
+        System.out.println(testSort(arr10000asc, "mergeSortNew", 10));
+        System.out.println(testSort(arr100000asc, "mergeSortNew", 10));
+        System.out.println(testSort(arr200000asc, "mergeSortNew", 10));
 
-        for(int i = 0; i < runs; i++) {
-            int[] toSort = Arrays.copyOf(arr10000, arr10000.length);
-            long startTime = System.nanoTime();
-            bubbleSortNew(toSort);
-            long endTime = System.nanoTime();
-            long time = endTime - startTime;
-            time10000averageBubbleSortNew = time10000averageBubbleSortNew + (time / runs);
-        }
+        System.out.println("Descending:");
 
-        for(int i = 0; i < runs; i++) {
-            int[] toSort = Arrays.copyOf(arr100000, arr100000.length);
-            long startTime = System.nanoTime();
-            bubbleSortNew(toSort);
-            long endTime = System.nanoTime();
-            long time = endTime - startTime;
-            time100000averageBubbleSortNew = time100000averageBubbleSortNew + (time / runs);
-        }
-
-        System.out.println("BubbleSortNew 100 items: " + time100averageBubbleSortNew);
-        System.out.println("BubbleSortNew 1000 items: " + time1000averageBubbleSortNew);
-        System.out.println("BubbleSortNew 10000 items: " + time10000averageBubbleSortNew);
-        System.out.println("BubbleSortNew 100000 items: " + time100000averageBubbleSortNew);
+        System.out.println(testSort(arr100desc, "mergeSortNew", 10));
+        System.out.println(testSort(arr1000desc, "mergeSortNew", 10));
+        System.out.println(testSort(arr10000desc, "mergeSortNew", 10));
+        System.out.println(testSort(arr100000desc, "mergeSortNew", 10));
+        System.out.println(testSort(arr200000desc, "mergeSortNew", 10));
 
         /*
-        InsertionSort 100 items: 116028
-        InsertionSort 1000 items: 720958
-        InsertionSort 10000 items: 9176985
-        InsertionSort 100000 items: 840375545
-
-        BubbleSort 100 items: 120585
-        BubbleSort 1000 items: 791184
-        BubbleSort 10000 items: 45706255
-        BubbleSort 100000 items: 11362504164
-
-        BubbleSortNew 100 items: 89461
-        BubbleSortNew 1000 items: 1787162
-        BubbleSortNew 10000 items: 154655212
-        BubbleSortNew 100000 items: 16362683363
+        InsertionSort:
+        Ascending:
+        3616
+        34629
+        223148
+        271995
+        112095
+        Descending:
+        54963
+        549447
+        39341416
+        3934231649
+        16166463582
+        -------------------------------
+        MergeSort:
+        Ascending:
+        79521
+        85879
+        654991
+        3621491
+        6157021
+        Descending:
+        40788
+        69725
+        757384
+        3809321
+        7402262
+        -----------------------------
+        MergeSortNew:
+        Ascending:
+        49280
+        62445
+        661521
+        3161738
+        5962596
+        Descending:
+        2075
+        23733
+        271570
+        3099974
+        5767329
          */
-
     }
 
 }
