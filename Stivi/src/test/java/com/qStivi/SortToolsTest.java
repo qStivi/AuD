@@ -77,4 +77,11 @@ class SortToolsTest {
         assertArrayEquals(new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, arr);
         assertArrayEquals(new Float[]{.1f, .2f, .3f, .4f, .5f, .6f, .7f, .8f, .9f}, arr2);
     }
+
+    @Test
+    void mergeSort() {
+        var arr = SortTools.createSequenceDec(33);
+        SortTools.mergeSort(arr);
+        assertArrayEquals(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33}, arr);
+    }
 }
