@@ -34,6 +34,19 @@ public class SortTools {
 
     }
 
+    public static void mergeSort(int[] a, int p, int r) {
+        if(p < r){
+            int q = (p + r) / 2;
+            mergeSort(a, p, q);
+            mergeSort(a, p + 1, q);
+            merge(a, p, q, r);
+        }
+    }
+
+    private static int[] merge(int[] a, int p, int q, int r) {
+        return a;
+    }
+
     public static void bubbleSort(int[] a) {
         for (int i = a.length - 1; i > 0; i--) {
             for (int j = 0; j < i - 1; j++) {
@@ -50,9 +63,9 @@ public class SortTools {
         for (int i = a.length - 1; i > 0; i--) {
             for (int j = 0; j < i - 9; j++) {
                 int[] temp = new int[11];
-                System.arraycopy(a, j, temp, 0,  11);
+                System.arraycopy(a, j, temp, 0, 11);
                 insertionSort(temp);
-                System.arraycopy(temp, 0, a, j,  11);
+                System.arraycopy(temp, 0, a, j, 11);
             }
         }
     }
