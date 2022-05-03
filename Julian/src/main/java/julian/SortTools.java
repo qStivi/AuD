@@ -372,78 +372,141 @@ public class SortTools {
         return sum;
     }
 
+    private static int maxProfit1(int[] a) {
+        int maxProfit = 0;
+        for(int i = 0; i < a.length; i++) {
+            for(int j = i + 1; j < a.length; j++) {
+                if(a[j] - a[i] > maxProfit) {
+                    maxProfit = a[j] - a[i];
+                }
+            }
+        }
+        return maxProfit;
+    }
+
+    private static int maxProfit2(int[] a) {
+        return trade(a, 0, a.length - 1);
+    }
+
+    private static int trade(int[] a, int p, int r) {
+        if(p == r) {
+            return 0;
+        } else {
+            int q = (int) Math.floor((p + r) / 2.0);
+            int t1 = trade(a, p, q); //maxLeft
+            int t2 = trade(a, q + 1, r); //maxRight
+            return maxWin(a, p, r, t1, t2); //maxBetween
+        }
+    }
+
+    private static int maxWin(int[] a, int p, int r, int t1, int t2) {
+
+        int q = (int) Math.floor((p + r) / 2.0);
+
+        int minLeft = Integer.MAX_VALUE;
+
+        for(int i = p; i <= q; i++) {
+            if(a[i] < minLeft) {
+                minLeft = a[i];
+            }
+        }
+
+        int maxRight = Integer.MIN_VALUE;
+
+        for(int j = q + 1; j <= r; j++) {
+            if(a[j] > maxRight) {
+                maxRight = a[j];
+            }
+        }
+
+        int t3 = maxRight - minLeft;
+
+        return Math.max(Math.max(t1, t2), t3);
+    }
+
 
     public static void main(String... args) {
 
-        int[] arr100asc = createSequenceInc(100);
-        int[] arr1000asc = createSequenceInc(1000);
-        int[] arr10000asc = createSequenceInc(10000);
-        int[] arr100000asc = createSequenceInc(100000);
-        int[] arr200000asc = createSequenceInc(200000);
+        int[] test1 = createSequenceRand(20);
 
-        int[] arr100desc = createSequenceDec(100);
-        int[] arr1000desc = createSequenceDec(1000);
-        int[] arr10000desc = createSequenceDec(10000);
-        int[] arr100000desc = createSequenceDec(100000);
-        int[] arr200000desc = createSequenceDec(200000);
 
-        System.out.println("InsertionSort: ");
+        System.out.println(Arrays.toString(test1));
+        //int[] test1 = new int[]{6, 6, 9, 9, 4, 7, 7, 7, 8, 7};
 
-        System.out.println("Ascending:");
+        System.out.println(maxProfit1(test1));
+        System.out.println(maxProfit2(test1));
 
-        System.out.println(testSort(arr100asc, "insertionSort", 10));
-        System.out.println(testSort(arr1000asc, "insertionSort", 10));
-        System.out.println(testSort(arr10000asc, "insertionSort", 10));
-        System.out.println(testSort(arr100000asc, "insertionSort", 10));
-        System.out.println(testSort(arr200000asc, "insertionSort", 10));
-
-        System.out.println("Descending:");
-
-        System.out.println(testSort(arr100desc, "insertionSort", 10));
-        System.out.println(testSort(arr1000desc, "insertionSort", 10));
-        System.out.println(testSort(arr10000desc, "insertionSort", 10));
-        System.out.println(testSort(arr100000desc, "insertionSort", 10));
-        System.out.println(testSort(arr200000desc, "insertionSort", 10));
-
-        System.out.println("-------------------------------");
-
-        System.out.println("MergeSort:");
-
-        System.out.println("Ascending:");
-
-        System.out.println(testSort(arr100asc, "mergeSort", 10));
-        System.out.println(testSort(arr1000asc, "mergeSort", 10));
-        System.out.println(testSort(arr10000asc, "mergeSort", 10));
-        System.out.println(testSort(arr100000asc, "mergeSort", 10));
-        System.out.println(testSort(arr200000asc, "mergeSort", 10));
-
-        System.out.println("Descending:");
-
-        System.out.println(testSort(arr100desc, "mergeSort", 10));
-        System.out.println(testSort(arr1000desc, "mergeSort", 10));
-        System.out.println(testSort(arr10000desc, "mergeSort", 10));
-        System.out.println(testSort(arr100000desc, "mergeSort", 10));
-        System.out.println(testSort(arr200000desc, "mergeSort", 10));
-
-        System.out.println("-----------------------------");
-
-        System.out.println("MergeSortNew:");
-
-        System.out.println("Ascending:");
-
-        System.out.println(testSort(arr100asc, "mergeSortNew", 10));
-        System.out.println(testSort(arr1000asc, "mergeSortNew", 10));
-        System.out.println(testSort(arr10000asc, "mergeSortNew", 10));
-        System.out.println(testSort(arr100000asc, "mergeSortNew", 10));
-        System.out.println(testSort(arr200000asc, "mergeSortNew", 10));
-
-        System.out.println("Descending:");
-
-        System.out.println(testSort(arr100desc, "mergeSortNew", 10));
-        System.out.println(testSort(arr1000desc, "mergeSortNew", 10));
-        System.out.println(testSort(arr10000desc, "mergeSortNew", 10));
-        System.out.println(testSort(arr100000desc, "mergeSortNew", 10));
-        System.out.println(testSort(arr200000desc, "mergeSortNew", 10));
+//        System.out.println(Arrays.toString(createSequenceRand(8)));
+//
+//        int[] arr100asc = createSequenceInc(100);
+//        int[] arr1000asc = createSequenceInc(1000);
+//        int[] arr10000asc = createSequenceInc(10000);
+//        int[] arr100000asc = createSequenceInc(100000);
+//        int[] arr200000asc = createSequenceInc(200000);
+//
+//        int[] arr100desc = createSequenceDec(100);
+//        int[] arr1000desc = createSequenceDec(1000);
+//        int[] arr10000desc = createSequenceDec(10000);
+//        int[] arr100000desc = createSequenceDec(100000);
+//        int[] arr200000desc = createSequenceDec(200000);
+//
+//        System.out.println("InsertionSort: ");
+//
+//        System.out.println("Ascending:");
+//
+//        System.out.println(testSort(arr100asc, "insertionSort", 10));
+//        System.out.println(testSort(arr1000asc, "insertionSort", 10));
+//        System.out.println(testSort(arr10000asc, "insertionSort", 10));
+//        System.out.println(testSort(arr100000asc, "insertionSort", 10));
+//        System.out.println(testSort(arr200000asc, "insertionSort", 10));
+//
+//        System.out.println("Descending:");
+//
+//        System.out.println(testSort(arr100desc, "insertionSort", 10));
+//        System.out.println(testSort(arr1000desc, "insertionSort", 10));
+//        System.out.println(testSort(arr10000desc, "insertionSort", 10));
+//        System.out.println(testSort(arr100000desc, "insertionSort", 10));
+//        System.out.println(testSort(arr200000desc, "insertionSort", 10));
+//
+//        System.out.println("-------------------------------");
+//
+//        System.out.println("MergeSort:");
+//
+//        System.out.println("Ascending:");
+//
+//        System.out.println(testSort(arr100asc, "mergeSort", 10));
+//        System.out.println(testSort(arr1000asc, "mergeSort", 10));
+//        System.out.println(testSort(arr10000asc, "mergeSort", 10));
+//        System.out.println(testSort(arr100000asc, "mergeSort", 10));
+//        System.out.println(testSort(arr200000asc, "mergeSort", 10));
+//
+//        System.out.println("Descending:");
+//
+//        System.out.println(testSort(arr100desc, "mergeSort", 10));
+//        System.out.println(testSort(arr1000desc, "mergeSort", 10));
+//        System.out.println(testSort(arr10000desc, "mergeSort", 10));
+//        System.out.println(testSort(arr100000desc, "mergeSort", 10));
+//        System.out.println(testSort(arr200000desc, "mergeSort", 10));
+//
+//        System.out.println("-----------------------------");
+//
+//        System.out.println("MergeSortNew:");
+//
+//        System.out.println("Ascending:");
+//
+//        System.out.println(testSort(arr100asc, "mergeSortNew", 10));
+//        System.out.println(testSort(arr1000asc, "mergeSortNew", 10));
+//        System.out.println(testSort(arr10000asc, "mergeSortNew", 10));
+//        System.out.println(testSort(arr100000asc, "mergeSortNew", 10));
+//        System.out.println(testSort(arr200000asc, "mergeSortNew", 10));
+//
+//        System.out.println("Descending:");
+//
+//        System.out.println(testSort(arr100desc, "mergeSortNew", 10));
+//        System.out.println(testSort(arr1000desc, "mergeSortNew", 10));
+//        System.out.println(testSort(arr10000desc, "mergeSortNew", 10));
+//        System.out.println(testSort(arr100000desc, "mergeSortNew", 10));
+//        System.out.println(testSort(arr200000desc, "mergeSortNew", 10));
 
         /*
         InsertionSort:
