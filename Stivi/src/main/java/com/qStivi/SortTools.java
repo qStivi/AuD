@@ -1,14 +1,11 @@
 package com.qStivi;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Random;
 
 public class SortTools {
 
-    private static final Logger logger = LoggerFactory.getLogger(SortTools.class);
     public static int NUMBER_OF_ITERATIONS = 10;
 
 
@@ -207,12 +204,34 @@ public class SortTools {
 
     //region merge-sort
 
-    private static void merge(int[] a, int p, int q, int r) {
+    private static void merge(int[] A, int p, int q, int r) {
+        var n1 = q - p + 1;
+        var n2 = r - q;
 
+        var L = new int[n1 + 1];
+        var R = new int[n2 + 1];
+
+        if (n1 - 1 >= 0) System.arraycopy(A, p + 1 - 1, L, 1, n1 - 1);
+        if (n2 - 1 >= 0) System.arraycopy(A, q + 1, R, 1, n2 - 1);
+
+        L[n1 + 1] = Integer.MAX_VALUE;
+        L[n2 + 1] = Integer.MAX_VALUE;
+
+        var i = 1;
+        var j = 1;
+        for (int k = p; k < r; k++) {
+            if (L[i] <= R[j]) {
+                A[k] = L[i];
+                i++;
+            } else {
+                A[k] = R[j];
+                j++;
+            }
+        }
     }
 
     public static void mergeSort(int[] A) {
-        mergeSortRec(A, A[0], A[A.length - 1]);
+        mergeSortRec(A, A[A.length - 1], A[0]);
     }
 
     private static void mergeSortRec(int[] A, int p, int r) {
@@ -354,25 +373,25 @@ public class SortTools {
         var hundredThousand = createSequenceDec(100000);
         var twoHundredThousand = createSequenceDec(200000);
 
-        logger.info("InsertionSort");
-        logger.info("100: " + getMeanTimeInsertionSort(hundred));
-        logger.info("1.000: " + getMeanTimeInsertionSort(thousand));
-        logger.info("10.000: " + getMeanTimeInsertionSort(tenThousand));
-        logger.info("100.000: " + getMeanTimeInsertionSort(hundredThousand));
-        logger.info("200.000: " + getMeanTimeInsertionSort(twoHundredThousand) + System.lineSeparator());
+        System.out.println("InsertionSort");
+        System.out.println("100: " + getMeanTimeInsertionSort(hundred));
+        System.out.println("1.000: " + getMeanTimeInsertionSort(thousand));
+        System.out.println("10.000: " + getMeanTimeInsertionSort(tenThousand));
+        System.out.println("100.000: " + getMeanTimeInsertionSort(hundredThousand));
+        System.out.println("200.000: " + getMeanTimeInsertionSort(twoHundredThousand) + System.lineSeparator());
 
-        logger.info("BubbleSort");
-        logger.info("100: " + getMeanTimeBubbleSort(hundred));
-        logger.info("1.000: " + getMeanTimeBubbleSort(thousand));
-        logger.info("10.000: " + getMeanTimeBubbleSort(tenThousand));
-        logger.info("100.000: " + getMeanTimeBubbleSort(hundredThousand));
-        logger.info("200.000: " + getMeanTimeBubbleSort(twoHundredThousand) + System.lineSeparator());
+        System.out.println("BubbleSort");
+        System.out.println("100: " + getMeanTimeBubbleSort(hundred));
+        System.out.println("1.000: " + getMeanTimeBubbleSort(thousand));
+        System.out.println("10.000: " + getMeanTimeBubbleSort(tenThousand));
+        System.out.println("100.000: " + getMeanTimeBubbleSort(hundredThousand));
+        System.out.println("200.000: " + getMeanTimeBubbleSort(twoHundredThousand) + System.lineSeparator());
 
-        logger.info("BubbleSortNew");
-        logger.info("100: " + getMeanTimeBubbleSortNew(hundred));
-        logger.info("1.000: " + getMeanTimeBubbleSortNew(thousand));
-        logger.info("10.000: " + getMeanTimeBubbleSortNew(tenThousand));
-        logger.info("100.000: " + getMeanTimeBubbleSortNew(hundredThousand));
-        logger.info("200.000: " + getMeanTimeBubbleSortNew(twoHundredThousand) + System.lineSeparator());
+        System.out.println("BubbleSortNew");
+        System.out.println("100: " + getMeanTimeBubbleSortNew(hundred));
+        System.out.println("1.000: " + getMeanTimeBubbleSortNew(thousand));
+        System.out.println("10.000: " + getMeanTimeBubbleSortNew(tenThousand));
+        System.out.println("100.000: " + getMeanTimeBubbleSortNew(hundredThousand));
+        System.out.println("200.000: " + getMeanTimeBubbleSortNew(twoHundredThousand) + System.lineSeparator());
     }
 }
