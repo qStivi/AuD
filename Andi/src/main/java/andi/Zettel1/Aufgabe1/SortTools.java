@@ -48,7 +48,7 @@ public class SortTools {
     10000: 39332440
     100000: 383023136
     200000: 1671065944
-
+    */
         int[] arr100Asc = createSequenceInc(100);
         int[] arr1000Asc = createSequenceInc(1000);
         int[] arr10000Asc = createSequenceInc(10000);
@@ -113,11 +113,11 @@ public class SortTools {
         System.out.println("100000: " + sortAlgo(arr100000Dec, "insertionSort", 10));
         System.out.println("200000: " + sortAlgo(arr200000Dec, "insertionSort", 10));
 
-    */
+
     }
 
     public static long sortAlgo(int[] arr, String algo, int x) {
-        int result = 0;
+        long result = 0;
 
         for (int i = 1; i <= x; i++) {
             int[] arrCopy = Arrays.copyOf(arr, arr.length);
@@ -126,17 +126,17 @@ public class SortTools {
                 long start = System.nanoTime();
                 mergeSort(arrCopy);
                 long end = System.nanoTime();
-                result += (end - start) / x;
+                result = result + ((end - start) / x);
             } else if (algo.equals("mergeSortNew")) {
                 long start = System.nanoTime();
                 mergeSortNew(arrCopy);
                 long end = System.nanoTime();
-                result += (end - start) / x;
+                result = result + ((end - start) / x);
             } else {
                 long start = System.nanoTime();
                 insertionSort(arrCopy);
                 long end = System.nanoTime();
-                result += (end - start) / x;
+                result = result + ((end - start) / x);
             }
         }
 
