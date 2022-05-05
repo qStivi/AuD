@@ -1,6 +1,8 @@
 package andi.Zettel1.Aufgabe1;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class SortTools {
 
@@ -114,6 +116,43 @@ public class SortTools {
         System.out.println("200000: " + sortAlgo(arr200000Dec, "insertionSort", 10));
 
 
+    }
+
+    public static <T extends Comparable<T>> void  mergeSortGen(T[] a) {
+        mergeSortHelpGen(a, 0, a.length - 1);
+    }
+
+    private static <T extends Comparable<T>> void mergeSortHelpGen(T[] a, int p, int r) {
+        if (p < r) {
+            int q = (int) Math.floor((p + r) / 2.0);
+            mergeSortHelpGen(a, p, q);
+            mergeSortHelpGen(a, q + 1, r);
+            mergeGen(a, p, q, r);
+        }
+    }
+
+    private static <T extends Comparable<T>> void mergeGen(T[] a, int p, int q, int r) {
+        int n1 = q - p + 1;
+        int n2 = r - q;
+        List<T> L = new ArrayList<>(n1);
+        List<T> R = new ArrayList<>(n2);
+
+        for (int i = 0; i < n1; i++) {
+            L.add(i, a[p + i]);
+        }
+        for (int j = 0; j < n2; j++) {
+            R.add(j, a[p + j + 1]);
+        }
+        int i = 0, j = 0;
+        for (int k = p; k <= r; k++) {
+            if (L.get(i).compareTo(R.get(j)) <= 0) {
+                a[k] = L.get(i);
+                i++;
+            } else {
+                a[k] = R.get(i);
+                j++;
+            }
+        }
     }
 
     public static long sortAlgo(int[] arr, String algo, int x) {
