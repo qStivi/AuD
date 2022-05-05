@@ -1,4 +1,4 @@
-package andi.Zettel1.Aufgabe1;
+package andi;
 
 import java.util.ArrayList;
 import java.util.Arrays;
