@@ -1,0 +1,203 @@
+package andi;
+
+import java.sql.SQLOutput;
+import java.util.Random;
+
+public class SearchTools {
+
+    public static void main(String[] args) {
+        int[] arr100000 = SortTools.createSequenceInc(100000);
+        int[] arr1000000 = SortTools.createSequenceInc(1000000);
+        int[] arr100000000 = SortTools.createSequenceInc(100000000);
+        int[] arr685154321 = SortTools.createSequenceInc(685154321);
+
+        int[] arrTest = SortTools.createSequenceInc(100);
+
+        long start = 0;
+        long end = 0;
+        long result = 0;
+        System.out.println("_________________________________________________________________________________");
+        System.out.println("LinSearch:");
+        for (int i = 1; i <= 500; i++) {
+            start = System.nanoTime();
+            linSearch(arr100000, new Random().nextInt(1, arr100000.length));
+            linSearch(arr100000, -5);
+            end = System.nanoTime();
+            result += (end - start);
+        }
+        result /= 500;
+        System.out.println(result);
+        result = 0;
+
+        for (int i = 1; i <= 500; i++) {
+            start = System.nanoTime();
+            linSearch(arr1000000, new Random().nextInt(1, arr1000000.length));
+            linSearch(arr1000000, -5);
+            end = System.nanoTime();
+            result += (end - start) ;
+        }
+        result /= 500;
+        System.out.println(result);
+        result = 0;
+
+        for (int i = 1; i <= 500; i++) {
+            start = System.nanoTime();
+            linSearch(arr100000000, new Random().nextInt(1, arr100000000.length));
+            linSearch(arr100000000, -5);
+            end = System.nanoTime();
+            result += (end - start);
+        }
+        result /= 500;
+        System.out.println(result);
+        result = 0;
+
+        for (int i = 1; i <= 500; i++) {
+            start = System.nanoTime();
+            linSearch(arr685154321, new Random().nextInt(1, arr685154321.length));
+            linSearch(arr685154321, -5);
+            end = System.nanoTime();
+            result += (end - start);
+        }
+        result /= 500;
+        System.out.println(result);
+        result = 0;
+
+        System.out.println("_________________________________________________________________________________");
+        System.out.println("BinSearch:");
+
+        for (int i = 1; i <= 500; i++) {
+            start = System.nanoTime();
+            binSearch(arr100000, new Random().nextInt(1, arr100000.length), 0, arr100000.length - 1);
+            binSearch(arr100000, -5, 0, arr100000.length - 1);
+            end = System.nanoTime();
+            result += (end - start);
+        }
+        result /= 500;
+        System.out.println(result);
+        result = 0;
+
+        for (int i = 1; i <= 500; i++) {
+            start = System.nanoTime();
+            binSearch(arr1000000, new Random().nextInt(1, arr1000000.length), 0, arr1000000.length - 1);
+            binSearch(arr1000000, -5, 0, arr1000000.length - 1);
+            end = System.nanoTime();
+            result += (end - start);
+        }
+        result /= 500;
+        System.out.println(result);
+        result = 0;
+
+        for (int i = 1; i <= 500; i++) {
+            start = System.nanoTime();
+            binSearch(arr100000000, new Random().nextInt(1, arr100000000.length), 0, arr100000000.length - 1);
+            binSearch(arr100000000, -5, 0, arr100000000.length - 1);
+            end = System.nanoTime();
+            result += (end - start);
+        }
+        result /= 500;
+        System.out.println(result);
+        result = 0;
+
+        for (int i = 1; i <= 500; i++) {
+            start = System.nanoTime();
+            binSearch(arr685154321, new Random().nextInt(1, arr685154321.length), 0, arr685154321.length - 1);
+            binSearch(arr685154321, -5, 0, arr685154321.length - 1);
+            end = System.nanoTime();
+            result += (end - start);
+        }
+        result /= 500;
+        System.out.println(result);
+        result = 0;
+
+        System.out.println("_________________________________________________________________________________");
+        System.out.println("BinSearchNew:");
+
+        for (int i = 1; i <= 500; i++) {
+            start = System.nanoTime();
+            binSearchNew(arr100000, new Random().nextInt(1, arr100000.length), 0, arr100000.length - 1);
+            binSearchNew(arr100000, -5, 0, arr100000.length - 1);
+            end = System.nanoTime();
+            result += (end - start);
+        }
+        result /= 500;
+        System.out.println(result);
+        result = 0;
+
+        for (int i = 1; i <= 500; i++) {
+            start = System.nanoTime();
+            binSearchNew(arr1000000, new Random().nextInt(1, arr1000000.length), 0, arr1000000.length - 1);
+            binSearchNew(arr1000000, -5, 0, arr1000000.length - 1);
+            end = System.nanoTime();
+            result += (end - start);
+        }
+        result /= 500;
+        System.out.println(result);
+        result = 0;
+
+        for (int i = 1; i <= 500; i++) {
+            start = System.nanoTime();
+            binSearchNew(arr100000000, new Random().nextInt(1, arr100000000.length), 0, arr100000000.length - 1);
+            binSearchNew(arr100000000, -5, 0, arr100000000.length - 1);
+            end = System.nanoTime();
+            result += (end - start);
+        }
+        result /= 500;
+        System.out.println(result);
+        result = 0;
+
+        for (int i = 1; i <= 500; i++) {
+            start = System.nanoTime();
+            binSearchNew(arr685154321, new Random().nextInt(1, arr685154321.length), 0, arr685154321.length - 1);
+            binSearchNew(arr685154321, -5, 0, arr685154321.length - 1);
+            end = System.nanoTime();
+            result += (end - start);
+        }
+        result /= 500;
+        System.out.println(result);
+        result = 0;
+
+    }
+
+    public static int linSearch(int[] A, int x) {
+        for (int i = 0; i < A.length; i++) {
+            if (x == A[i]) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static int binSearch(int[] A, int x, int l, int r) {
+        if (l < r) {
+            int pivot = (l + r) / 2;
+            if (x == A[pivot]) {
+                return pivot;
+            } else if (x < A[pivot]) {
+                return binSearch(A, x, l, pivot);
+            } else {
+                return binSearch(A, x, pivot + 1, r);
+            }
+        }
+        return -1;
+    }
+
+    public static int binSearchNew(int[] A, int x, int l, int r) {
+        if (l < r) {
+            int m = (r - l + 1) / 3;
+            int pivot1 = m - 1 + l;
+            int pivot2 = pivot1 + x;
+            if (x == pivot1) {
+                return pivot1;
+            } else if (x == pivot2) {
+                return pivot2;
+            } else if (x < pivot1) {
+                return binSearch(A, x, pivot1, r);
+            } else if (x < pivot2) {
+                return binSearch(A, x, pivot1 + 1, pivot2);
+            } else {
+                return binSearch(A, x, pivot2 + 1, r);
+            }
+        }
+        return -1;
+    }
+}
