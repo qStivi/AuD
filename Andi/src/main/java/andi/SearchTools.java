@@ -6,6 +6,27 @@ import java.util.Random;
 public class SearchTools {
 
     public static void main(String[] args) {
+        /*
+        _________________________________________________________________________________
+        LinSearch:
+        47732
+        361856
+        49228703
+        325654728
+        _________________________________________________________________________________
+        BinSearch:
+        978
+        917
+        2100
+        2122
+        _________________________________________________________________________________
+        BinSearchNew:
+        1411
+        926
+        2197
+        2398
+         */
+
         int[] arr100000 = SortTools.createSequenceInc(100000);
         int[] arr1000000 = SortTools.createSequenceInc(1000000);
         int[] arr100000000 = SortTools.createSequenceInc(100000000);
@@ -14,7 +35,7 @@ public class SearchTools {
         long start = 0;
         long end = 0;
         long result = 0;
-       /* System.out.println("_________________________________________________________________________________");
+        System.out.println("_________________________________________________________________________________");
         System.out.println("LinSearch:");
         for (int i = 1; i <= 500; i++) {
             int r = new Random().nextInt(1, arr100000.length);
@@ -62,7 +83,7 @@ public class SearchTools {
         result /= 500;
         System.out.println(result);
         result = 0;
-*/
+
         System.out.println("_________________________________________________________________________________");
         System.out.println("BinSearch:");
 
@@ -192,7 +213,7 @@ public class SearchTools {
 
     public static int binSearchNew(int[] A, int x, int l, int r) {
         if (l < r) {
-            int m = (r - l + 1) / 3;
+            int m = (int) Math.round((r - l + 1) / 3.0);
             int pivot1 = m - 1 + l;
             int pivot2 = pivot1 + m;
 
