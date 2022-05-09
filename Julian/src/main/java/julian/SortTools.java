@@ -427,7 +427,7 @@ public class SortTools {
 
     public static void main(String... args) {
 
-        int[] test1 = createSequenceRand(20);
+        int[] test1 = createSequenceRand(11);
 
 
         System.out.println(Arrays.toString(test1));
