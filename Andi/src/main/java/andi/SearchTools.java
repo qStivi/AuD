@@ -14,7 +14,7 @@ public class SearchTools {
         long start = 0;
         long end = 0;
         long result = 0;
-        System.out.println("_________________________________________________________________________________");
+       /* System.out.println("_________________________________________________________________________________");
         System.out.println("LinSearch:");
         for (int i = 1; i <= 500; i++) {
             int r = new Random().nextInt(1, arr100000.length);
@@ -62,7 +62,7 @@ public class SearchTools {
         result /= 500;
         System.out.println(result);
         result = 0;
-
+*/
         System.out.println("_________________________________________________________________________________");
         System.out.println("BinSearch:");
 
@@ -194,17 +194,18 @@ public class SearchTools {
         if (l < r) {
             int m = (r - l + 1) / 3;
             int pivot1 = m - 1 + l;
-            int pivot2 = pivot1 + x;
-            if (x == pivot1) {
+            int pivot2 = pivot1 + m;
+
+            if (x == A[pivot1]) {
                 return pivot1;
-            } else if (x == pivot2) {
+            } else if (x == A[pivot2]) {
                 return pivot2;
-            } else if (x < pivot1) {
-                return binSearch(A, x, pivot1, r);
-            } else if (x < pivot2) {
-                return binSearch(A, x, pivot1 + 1, pivot2);
+            } else if (x < A[pivot1]) {
+                return binSearchNew(A, x, l, pivot1);
+            } else if (x < A[pivot2]) {
+                return binSearchNew(A, x, pivot1 + 1, pivot2);
             } else {
-                return binSearch(A, x, pivot2 + 1, r);
+                return binSearchNew(A, x, pivot2 + 1, r);
             }
         }
         return -1;
