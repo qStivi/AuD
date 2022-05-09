@@ -34,17 +34,17 @@ public class SearchTools {
     // 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
     //    l     i        j     r
     public static int binSearchNew(int[] A, int x, int l, int r) {
-        var i = (l + r) / 3;
-        var j = ((l + r) / 3) * 2;
+        var i = ((r - l + 1) / 3) + l;
+        var j = i + (r - l + 1) / 3;
         if (r >= 1) {
             if (x == A[i]) {
                 return i;
             } else if (x < A[i]) {
-                return binSearch(A, x, l, i);
+                return binSearchNew(A, x, l, i);
             } else if (x > A[i] && x < A[j]) {
-                return binSearch(A, x, i, j);
+                return binSearchNew(A, x, i, j);
             } else if (x > A[j]) {
-                return binSearch(A, x, j + 1, r);
+                return binSearchNew(A, x, j + 1, r);
             }
         }
 
@@ -62,17 +62,17 @@ public class SearchTools {
     _______________________
 
     Binary Search
-        100.000: 1390
-      1.000.000: 2099
-    100.000.000: 38180
-    685.154.321: 1931 // warum geht das schneller als 1ne mio?!?! (Bzw. genauso schnell, wenn 100mio VIEL länger braucht?)
+        100.000: 766
+      1.000.000: 1173
+    100.000.000: 15024
+    685.154.321: 2783 // warum geht das schneller als 100mio?!?!
     _______________________
 
     Binary Search New
-        100.000: 370
-      1.000.000: 505
-    100.000.000: 33732
-    685.154.321: 2250
+        100.000: 650
+      1.000.000: 548
+    100.000.000: 11925
+    685.154.321: 2459
     _______________________
     */
     public static void main(String[] args) {
