@@ -5,6 +5,8 @@ import java.util.Random;
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class SearchTools {
 
+    private static final int numberOfIterations = 500;
+
     public static int linSearch(int[] A, int x) {
         for (int i = 0; i < A.length; i++) {
             if (A[i] == x) {
@@ -50,27 +52,29 @@ public class SearchTools {
     }
 
     /*
-        Linear Search
-            100.000: 36084
-          1.000.000: 293939
-        100.000.000: 28030546
-        685.154.321: 192841299
-        _______________________
+    Die Werte sehen schon wieder so komisch aus :(
 
-        Binary Search
-            100.000: 1014
-          1.000.000: 13599
-        100.000.000: 41169
-        685.154.321: 1999
-        _______________________
+    Linear Search
+        100.000: 37733
+      1.000.000: 275876
+    100.000.000: 29527009
+    685.154.321: 205591615
+    _______________________
 
-        Binary Search New
-            100.000: 391
-          1.000.000: 511
-        100.000.000: 26370
-        685.154.321: 2778
-        _______________________
-     */
+    Binary Search
+        100.000: 1390
+      1.000.000: 2099
+    100.000.000: 38180
+    685.154.321: 1931 // warum geht das schneller als 1ne mio?!?! (Bzw. genauso schnell, wenn 100mio VIEL länger braucht?)
+    _______________________
+
+    Binary Search New
+        100.000: 370
+      1.000.000: 505
+    100.000.000: 33732
+    685.154.321: 2250
+    _______________________
+    */
     public static void main(String[] args) {
         var hundredThousand = SortTools.createSequenceInc(100000);
         var million = SortTools.createSequenceInc(1000000);
@@ -104,38 +108,41 @@ public class SearchTools {
 
     private static long getAverageLinerSearchTime(int[] A) {
         var avg = 0L;
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < numberOfIterations; i++) {
+            if (avg < 0) System.out.println("OVERFLOW!");
             var r = new Random().nextInt(1, A.length);
             var start = System.nanoTime();
             linSearch(A, r);
             linSearch(A, -5);
             avg += System.nanoTime() - start;
         }
-        return avg / 500;
+        return avg / numberOfIterations;
     }
 
     private static long getAverageBinarySearchTime(int[] A) {
         var avg = 0L;
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < numberOfIterations; i++) {
+            if (avg < 0) System.out.println("OVERFLOW!");
             var r = new Random().nextInt(1, A.length);
             var start = System.nanoTime();
             binSearch(A, r, 0, A.length - 1);
             binSearch(A, -5, 0, A.length - 1);
             avg += System.nanoTime() - start;
         }
-        return avg / 500;
+        return avg / numberOfIterations;
     }
 
     private static long getAverageBinarySearchNewTime(int[] A) {
         var avg = 0L;
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < numberOfIterations; i++) {
+            if (avg < 0) System.out.println("OVERFLOW!");
             var r = new Random().nextInt(1, A.length);
             var start = System.nanoTime();
             binSearchNew(A, r, 0, A.length - 1);
             binSearchNew(A, -5, 0, A.length - 1);
             avg += System.nanoTime() - start;
         }
-        return avg / 500;
+        return avg / numberOfIterations;
     }
 
 }
