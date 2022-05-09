@@ -11,16 +11,15 @@ public class SearchTools {
         int[] arr100000000 = SortTools.createSequenceInc(100000000);
         int[] arr685154321 = SortTools.createSequenceInc(685154321);
 
-        int[] arrTest = SortTools.createSequenceInc(100);
-
         long start = 0;
         long end = 0;
         long result = 0;
         System.out.println("_________________________________________________________________________________");
         System.out.println("LinSearch:");
         for (int i = 1; i <= 500; i++) {
+            int r = new Random().nextInt(1, arr100000.length);
             start = System.nanoTime();
-            linSearch(arr100000, new Random().nextInt(1, arr100000.length));
+            linSearch(arr100000, r);
             linSearch(arr100000, -5);
             end = System.nanoTime();
             result += (end - start);
@@ -30,8 +29,9 @@ public class SearchTools {
         result = 0;
 
         for (int i = 1; i <= 500; i++) {
+            int r = new Random().nextInt(1, arr1000000.length);
             start = System.nanoTime();
-            linSearch(arr1000000, new Random().nextInt(1, arr1000000.length));
+            linSearch(arr1000000, r);
             linSearch(arr1000000, -5);
             end = System.nanoTime();
             result += (end - start) ;
@@ -52,8 +52,9 @@ public class SearchTools {
         result = 0;
 
         for (int i = 1; i <= 500; i++) {
+            int r = new Random().nextInt(1, arr685154321.length);
             start = System.nanoTime();
-            linSearch(arr685154321, new Random().nextInt(1, arr685154321.length));
+            linSearch(arr685154321, r);
             linSearch(arr685154321, -5);
             end = System.nanoTime();
             result += (end - start);
@@ -66,8 +67,9 @@ public class SearchTools {
         System.out.println("BinSearch:");
 
         for (int i = 1; i <= 500; i++) {
+            int r = new Random().nextInt(1, arr100000.length);
             start = System.nanoTime();
-            binSearch(arr100000, new Random().nextInt(1, arr100000.length), 0, arr100000.length - 1);
+            binSearch(arr100000, r, 0, arr100000.length - 1);
             binSearch(arr100000, -5, 0, arr100000.length - 1);
             end = System.nanoTime();
             result += (end - start);
@@ -77,8 +79,9 @@ public class SearchTools {
         result = 0;
 
         for (int i = 1; i <= 500; i++) {
+            int r = new Random().nextInt(1, arr1000000.length);
             start = System.nanoTime();
-            binSearch(arr1000000, new Random().nextInt(1, arr1000000.length), 0, arr1000000.length - 1);
+            binSearch(arr1000000, r, 0, arr1000000.length - 1);
             binSearch(arr1000000, -5, 0, arr1000000.length - 1);
             end = System.nanoTime();
             result += (end - start);
@@ -88,8 +91,9 @@ public class SearchTools {
         result = 0;
 
         for (int i = 1; i <= 500; i++) {
+            int r = new Random().nextInt(1, arr100000000.length);
             start = System.nanoTime();
-            binSearch(arr100000000, new Random().nextInt(1, arr100000000.length), 0, arr100000000.length - 1);
+            binSearch(arr100000000, r, 0, arr100000000.length - 1);
             binSearch(arr100000000, -5, 0, arr100000000.length - 1);
             end = System.nanoTime();
             result += (end - start);
@@ -99,8 +103,9 @@ public class SearchTools {
         result = 0;
 
         for (int i = 1; i <= 500; i++) {
+            int r = new Random().nextInt(1, arr685154321.length);
             start = System.nanoTime();
-            binSearch(arr685154321, new Random().nextInt(1, arr685154321.length), 0, arr685154321.length - 1);
+            binSearch(arr685154321, r, 0, arr685154321.length - 1);
             binSearch(arr685154321, -5, 0, arr685154321.length - 1);
             end = System.nanoTime();
             result += (end - start);
@@ -113,8 +118,9 @@ public class SearchTools {
         System.out.println("BinSearchNew:");
 
         for (int i = 1; i <= 500; i++) {
+            int r = new Random().nextInt(1, arr100000.length);
             start = System.nanoTime();
-            binSearchNew(arr100000, new Random().nextInt(1, arr100000.length), 0, arr100000.length - 1);
+            binSearchNew(arr100000, r, 0, arr100000.length - 1);
             binSearchNew(arr100000, -5, 0, arr100000.length - 1);
             end = System.nanoTime();
             result += (end - start);
@@ -124,8 +130,9 @@ public class SearchTools {
         result = 0;
 
         for (int i = 1; i <= 500; i++) {
+            int r = new Random().nextInt(1, arr1000000.length);
             start = System.nanoTime();
-            binSearchNew(arr1000000, new Random().nextInt(1, arr1000000.length), 0, arr1000000.length - 1);
+            binSearchNew(arr1000000, r, 0, arr1000000.length - 1);
             binSearchNew(arr1000000, -5, 0, arr1000000.length - 1);
             end = System.nanoTime();
             result += (end - start);
@@ -135,8 +142,9 @@ public class SearchTools {
         result = 0;
 
         for (int i = 1; i <= 500; i++) {
+            int r = new Random().nextInt(1, arr100000000.length);
             start = System.nanoTime();
-            binSearchNew(arr100000000, new Random().nextInt(1, arr100000000.length), 0, arr100000000.length - 1);
+            binSearchNew(arr100000000, r, 0, arr100000000.length - 1);
             binSearchNew(arr100000000, -5, 0, arr100000000.length - 1);
             end = System.nanoTime();
             result += (end - start);
@@ -146,8 +154,9 @@ public class SearchTools {
         result = 0;
 
         for (int i = 1; i <= 500; i++) {
+            int r = new Random().nextInt(1, arr685154321.length);
             start = System.nanoTime();
-            binSearchNew(arr685154321, new Random().nextInt(1, arr685154321.length), 0, arr685154321.length - 1);
+            binSearchNew(arr685154321, r, 0, arr685154321.length - 1);
             binSearchNew(arr685154321, -5, 0, arr685154321.length - 1);
             end = System.nanoTime();
             result += (end - start);
