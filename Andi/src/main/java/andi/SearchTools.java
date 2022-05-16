@@ -1,6 +1,5 @@
 package andi;
 
-import java.sql.SQLOutput;
 import java.util.Random;
 
 public class SearchTools {
