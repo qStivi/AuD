@@ -50,7 +50,7 @@ public class SortTools {
     10000: 39332440
     100000: 383023136
     200000: 1671065944
-    */
+
         int[] arr100Asc = createSequenceInc(100);
         int[] arr1000Asc = createSequenceInc(1000);
         int[] arr10000Asc = createSequenceInc(10000);
@@ -114,6 +114,7 @@ public class SortTools {
         System.out.println("10000: " + sortAlgo(arr10000Dec, "insertionSort", 10));
         System.out.println("100000: " + sortAlgo(arr100000Dec, "insertionSort", 10));
         System.out.println("200000: " + sortAlgo(arr200000Dec, "insertionSort", 10));
+        */
 
 
     }
