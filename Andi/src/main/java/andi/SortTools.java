@@ -7,6 +7,17 @@ import java.util.List;
 public class SortTools {
 
     public static void main(String[] args) {
+
+        int[] arr = createSequenceRand(10);
+        for ( int ele : arr) {
+            System.out.println(ele);
+        }
+        System.out.println("____________________________________________");
+        quickSort(arr);
+
+        for ( int ele : arr) {
+            System.out.println(ele);
+        }
     /*
 
     MergeSort:
@@ -119,7 +130,32 @@ public class SortTools {
 
     }
 
-    public static <T extends Comparable<T>> void  mergeSortGen(T[] a) {
+    public static void quickSort(int[] arr) {
+        quickSortHelp(arr, 0, arr.length - 1);
+    }
+
+    private static void quickSortHelp(int[] arr, int l, int r) {
+        if (l < r) {
+            int q = partition(arr, l, r);
+            quickSortHelp(arr, l, q - 1);
+            quickSortHelp(arr, q + 1, r);
+        }
+    }
+
+    private static int partition(int[] arr, int l, int r) {
+        int pivot = arr[r]; //arr[l] funktioniert nicht
+        int i = l - 1;
+        for (int j = l; j < r; j++) {
+            if(arr[j] <= pivot) {
+                i++;
+                swap(arr, i, j);
+            }
+        }
+        swap(arr, i + 1, r);
+        return i + 1;
+    }
+
+    public static <T extends Comparable<T>> void mergeSortGen(T[] a) {
         mergeSortHelpGen(a, 0, a.length - 1);
     }
 
@@ -370,5 +406,11 @@ public class SortTools {
             }
         }
         return arr;
+    }
+
+    private static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
     }
 }
