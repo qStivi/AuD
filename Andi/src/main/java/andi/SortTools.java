@@ -3,19 +3,20 @@ package andi;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class SortTools {
 
     public static void main(String[] args) {
 
         int[] arr = createSequenceRand(10);
-        for ( int ele : arr) {
+        for (int ele : arr) {
             System.out.println(ele);
         }
         System.out.println("____________________________________________");
-        quickSort(arr);
+        quickSortNewRandom(arr);
 
-        for ( int ele : arr) {
+        for (int ele : arr) {
             System.out.println(ele);
         }
     /*
@@ -130,6 +131,76 @@ public class SortTools {
 
     }
 
+    public static void quickSortNewRandom(int[] arr) {
+        quickSortNewRandomHelp(arr, 0, arr.length - 1);
+    }
+
+    private static void quickSortNewRandomHelp(int[] arr, int l, int r) {
+        if (l < r) {
+            int q = partitionNewRandom(arr, l, r);
+            quickSortNewRandomHelp(arr, l, q - 1);
+            quickSortNewRandomHelp(arr, q + 1, r);
+        }
+    }
+
+    private static int partitionNewRandom(int[] arr, int l, int r) {
+        int random = getRandom(arr, l, r);
+        swap(arr, random, r);
+        int pivot = arr[r];
+        int i = l - 1;
+        for (int j = l; j < r; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                swap(arr, i, j);
+            }
+        }
+        swap(arr, i + 1, r);
+        return i + 1;
+    }
+
+    private static int getRandom(int[] arr, int l, int r) {
+        Random rand = new Random();
+        int n1 = rand.nextInt(r - l) + l;
+        int n2 = rand.nextInt(r - l) + l;
+        int n3 = rand.nextInt(r - l) + l;
+        if (arr[n2] <= arr[n1] && arr[n1] <= arr[n3]) {
+            return n1;
+        } else if (arr[n1] <= arr[n2] && arr[n2] <= arr[n3]) {
+            return n2;
+        } else {
+            return n3;
+        }
+    }
+
+    public static void quickSortRandom(int[] arr) {
+        quickSortRandomHelp(arr, 0, arr.length - 1);
+    }
+
+    private static void quickSortRandomHelp(int[] arr, int l, int r) {
+        if (l < r) {
+            int q = partitionRandom(arr, l, r);
+            quickSortRandomHelp(arr, l, q - 1);
+            quickSortRandomHelp(arr, q + 1, r);
+        }
+    }
+
+    private static int partitionRandom(int[] arr, int l, int r) {
+        Random rand = new Random();
+        int random = rand.nextInt(r - l) + l;
+        swap(arr, random, r);
+        int pivot = arr[r];
+        int i = l - 1;
+        for (int j = l; j < r; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                swap(arr, i, j);
+            }
+        }
+        swap(arr, i + 1, r);
+        return i + 1;
+    }
+
+
     public static void quickSort(int[] arr) {
         quickSortHelp(arr, 0, arr.length - 1);
     }
@@ -143,16 +214,16 @@ public class SortTools {
     }
 
     private static int partition(int[] arr, int l, int r) {
-        int pivot = arr[r]; //arr[l] funktioniert nicht
-        int i = l - 1;
-        for (int j = l; j < r; j++) {
-            if(arr[j] <= pivot) {
-                i++;
+        int pivot = arr[l];
+        int i = r + 1;
+        for (int j = r; j > l; j--) {
+            if (arr[j] >= pivot) {
+                i--;
                 swap(arr, i, j);
             }
         }
-        swap(arr, i + 1, r);
-        return i + 1;
+        swap(arr, i - 1, l);
+        return i - 1;
     }
 
     public static <T extends Comparable<T>> void mergeSortGen(T[] a) {
