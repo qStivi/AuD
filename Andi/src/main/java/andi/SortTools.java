@@ -14,7 +14,7 @@ public class SortTools {
             System.out.println(ele);
         }
         System.out.println("____________________________________________");
-        quickSortTriRandom(arr);
+        quickSortRandom(arr);
 
         for (int ele : arr) {
             System.out.println(ele);
@@ -154,10 +154,13 @@ public class SortTools {
     private static int partitionTriNewRandom(int[] arr, int l, int r) {
         int random = getRandom(arr, l, r);
         swap(arr, random, r);
-        int pivot = arr[r];
+        int pivot1 = arr[r];
+        random = getRandom(arr, l, r);
+        swap(arr, random, l);
+        int pivot2 = arr[l];
         int i = l - 1;
         for (int j = l; j < r; j++) {
-            if (arr[j] <= pivot) {
+            if (arr[j] <= pivot1) {
                 i++;
                 swap(arr, i, j);
             }
