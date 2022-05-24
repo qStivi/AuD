@@ -14,7 +14,7 @@ public class SortTools {
             System.out.println(ele);
         }
         System.out.println("____________________________________________");
-        quickSortNewRandom(arr);
+        quickSortTriRandom(arr);
 
         for (int ele : arr) {
             System.out.println(ele);
@@ -129,6 +129,76 @@ public class SortTools {
         */
 
 
+    }
+
+    public static void quickSortTriNewRandom(int[] arr) {
+        quickSortTriNewRandomHelp(arr, 0, arr.length - 1);
+    }
+
+    private static void quickSortTriNewRandomHelp(int[] arr, int l, int r) {
+        if (l < r) {
+            int q = partitionTriNewRandom(arr, l, r);
+            int p = partitionTriNewRandom(arr, l, r);
+            if(q < p) {
+                quickSortTriNewRandomHelp(arr, l, q - 1);
+                quickSortTriNewRandomHelp(arr, q + 1, p - 1);
+                quickSortTriNewRandomHelp(arr, p + 1, r);
+            } else {
+                quickSortTriNewRandomHelp(arr, l, p - 1);
+                quickSortTriNewRandomHelp(arr, p + 1, q - 1);
+                quickSortTriNewRandomHelp(arr, q + 1, r);
+            }
+        }
+    }
+
+    private static int partitionTriNewRandom(int[] arr, int l, int r) {
+        int random = getRandom(arr, l, r);
+        swap(arr, random, r);
+        int pivot = arr[r];
+        int i = l - 1;
+        for (int j = l; j < r; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                swap(arr, i, j);
+            }
+        }
+        swap(arr, i + 1, r);
+        return i + 1;
+    }
+
+    public static void quickSortTriRandom(int[] arr) {
+        quickSortTriRandomHelp(arr, 0, arr.length - 1);
+    }
+
+    private static void quickSortTriRandomHelp(int[] arr, int l, int r) {
+        if (l < r) {
+            int q = partitionTriRandom(arr, l, r);
+            int p = partitionTriRandom(arr, l, r);
+            if(q < p) {
+                quickSortTriRandomHelp(arr, l, q - 1);
+                quickSortTriRandomHelp(arr, q + 1, p - 1);
+                quickSortTriRandomHelp(arr, p + 1, r);
+            } else {
+                quickSortTriRandomHelp(arr, l, p - 1);
+                quickSortTriRandomHelp(arr, p + 1, q - 1);
+                quickSortTriRandomHelp(arr, q + 1, r);
+            }
+        }
+    }
+
+    private static int partitionTriRandom(int[] arr, int l, int r) {
+        int random = getRandom(arr, l, r);
+        swap(arr, random, r);
+        int pivot = arr[r];
+        int i = l - 1;
+        for (int j = l; j < r; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                swap(arr, i, j);
+            }
+        }
+        swap(arr, i + 1, r);
+        return i + 1;
     }
 
     public static void quickSortNewRandom(int[] arr) {
