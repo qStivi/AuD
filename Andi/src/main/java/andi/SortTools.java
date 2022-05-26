@@ -273,7 +273,6 @@ public class SortTools {
         return i + 1;
     }
 
-
     public static void quickSort(int[] arr) {
         quickSortHelp(arr, 0, arr.length - 1);
     }

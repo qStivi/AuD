@@ -19,21 +19,21 @@ public class PriorityQueueMinHeap<K extends Comparable<K>> implements PriorityQu
     }
 
     public void deleteFirst() {
-       a.add(0, a.get(a.size() - 1));
-       a.remove(a.size() - 1);
-       MinHeapify(a, 0);
+        a.add(0, a.get(a.size() - 1));
+        a.remove(a.size() - 1);
+        MinHeapify(a, 0);
     }
 
     public void MinHeapify(ArrayList<K> a, int i) {
-        int min= -1;
+        int min = -1;
         int l = 2 * i;
         int r = 2 * i + 1;
-        if (l < a.size() && a.get(l).compareTo(a.get(i)) < 0 ) {
+        if (l < a.size() && a.get(l).compareTo(a.get(i)) < 0) {
             min = l;
         } else {
             min = i;
         }
-        if (r < a.size() && a.get(r).compareTo(a.get(i)) < 0 ) {
+        if (r < a.size() && a.get(r).compareTo(a.get(i)) < 0) {
             min = r;
         }
         if (min != i) {
@@ -45,6 +45,6 @@ public class PriorityQueueMinHeap<K extends Comparable<K>> implements PriorityQu
     private void swap(int x, int y) {
         K temp = a.get(x);
         a.add(x, a.get(y));
-        a.add(y,temp);
+        a.add(y, temp);
     }
 }

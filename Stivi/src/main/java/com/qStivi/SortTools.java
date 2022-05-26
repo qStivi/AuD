@@ -381,6 +381,104 @@ public class SortTools {
 
     //endregion
 
+    // region quick-sort
+
+    public static void quickSort(int[] A) {
+        quickSortRec(A, 0, A.length - 1);
+    }
+
+    private static void quickSortRec(int[] A, int l, int r) {
+        if (l < r) {
+            var q = partition(A, l, r);
+            quickSortRec(A, l, q - 1);
+            quickSortRec(A, q + 1, r);
+        }
+    }
+
+    private static int partition(int[] A, int l, int r) {
+        var x = A[l];
+        var i = r + 1;
+        for (int j = r; j > l; j--) {
+            if (A[j] >= x) {
+                i--;
+                swap(A, i, j);
+            }
+        }
+        swap(A, i - 1, l);
+        return i - 1;
+    }
+
+    public static void quickSortRandom(int[] A) {
+        quickSortRandomRec(A, 0, A.length - 1);
+    }
+
+    private static void quickSortRandomRec(int[] A, int l, int r) {
+        if (l < r) {
+            var q = partitionRandom(A, l, r);
+            quickSortRandomRec(A, l, q - 1);
+            quickSortRandomRec(A, q + 1, r);
+        }
+    }
+
+    private static int partitionRandom(int[] A, int l, int r) {
+        var rand = new Random().nextInt(l, r + 1);
+        swap(A, rand, r);
+        var x = A[r];
+        var i = l - 1;
+        for (int j = l; j < r; j++) {
+            if (A[j] <= x) {
+                i++;
+                swap(A, i, j);
+            }
+        }
+        swap(A, i + 1, r);
+        return i + 1;
+    }
+
+    public static void quickSortNewRandom(int[] A) {
+        quickSortNewRandomRec(A, 0, A.length - 1);
+    }
+
+    private static void quickSortNewRandomRec(int[] A, int l, int r) {
+        if (l < r) {
+            var q = partitionNewRandom(A, l, r);
+            quickSortNewRandomRec(A, l, q - 1);
+            quickSortNewRandomRec(A, q + 1, r);
+        }
+    }
+
+    private static int partitionNewRandom(int[] A, int l, int r) {
+        var randomizer = new Random();
+        var rand = getMiddleValue(randomizer.nextInt(l, r + 1), randomizer.nextInt(l, r + 1), randomizer.nextInt(l, r + 1));
+        swap(A, rand, r);
+        var x = A[r];
+        var i = l - 1;
+        for (int j = l; j < r; j++) {
+            if (A[j] <= x) {
+                i++;
+                swap(A, i, j);
+            }
+        }
+        swap(A, i + 1, r);
+        return i + 1;
+    }
+
+    public static int getMiddleValue(int v1, int v2, int v3) {
+        if (isInRange(v1, v2, v3)) {
+            return v1;
+        } else if (isInRange(v2, v1, v3)) {
+            return v2;
+        } else {
+            return v3;
+        }
+    }
+
+    public static boolean isInRange(int inRangeValue, int Value1Inclusive, int Value2Inclusive) {
+        return (inRangeValue >= Value1Inclusive && inRangeValue <= Value2Inclusive) || (inRangeValue >= Value2Inclusive && inRangeValue <= Value1Inclusive);
+    }
+
+    // endregion
+
     //region helper functions
 
     /**

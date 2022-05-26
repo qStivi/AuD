@@ -14,6 +14,7 @@ public class PriorityQueueMinHeap<K extends Comparable<K>> implements PriorityQu
         return a;
     }
 
+
     @Override
     public void addElement(K elem) {
         if (a.size() == 0) {

@@ -3,6 +3,7 @@ package com.qStivi;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SortToolsTest {
 
@@ -119,4 +120,47 @@ class SortToolsTest {
     }
 
     // endregion
+
+    // region quick-sort
+
+    @Test
+    void quickSort() {
+        var arr = SortTools.createSequenceDec(33);
+        SortTools.quickSort(arr);
+        assertArrayEquals(SortTools.createSequenceInc(33), arr);
+    }
+
+    @Test
+    void quickSortRandom() {
+        var arr = SortTools.createSequenceDec(33);
+        SortTools.quickSortRandom(arr);
+        assertArrayEquals(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33}, arr);
+    }
+
+    @Test
+    void quickSortNewRandom() {
+        var arr = SortTools.createSequenceDec(33);
+        SortTools.quickSortNewRandom(arr);
+        assertArrayEquals(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33}, arr);
+    }
+
+    // endregion
+
+    @Test
+    void getMiddleValueTest() {
+        assertEquals(2, SortTools.getMiddleValue(1, 2, 3));
+        assertEquals(2, SortTools.getMiddleValue(-1, 2, 3));
+
+        assertEquals(2, SortTools.getMiddleValue(2, 2, 3));
+        assertEquals(2, SortTools.getMiddleValue(2, 3, 2));
+        assertEquals(2, SortTools.getMiddleValue(3, 2, 2));
+        assertEquals(2, SortTools.getMiddleValue(1, 2, 2));
+        assertEquals(2, SortTools.getMiddleValue(2, 1, 2));
+        assertEquals(2, SortTools.getMiddleValue(2, 2, 1));
+
+        assertEquals(2, SortTools.getMiddleValue(2, 1, 3));
+        assertEquals(2, SortTools.getMiddleValue(2, 3, 1));
+        assertEquals(2, SortTools.getMiddleValue(3, 1, 2));
+        assertEquals(2, SortTools.getMiddleValue(1, 3, 2));
+    }
 }

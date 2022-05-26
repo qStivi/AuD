@@ -16,6 +16,8 @@ class PriorityQueueMinHeapTest {
         assertEquals(6, queue.getA().get(0));
         queue.addElement(8); // 6, 8
         assertEquals(8, queue.getA().get(1));
+        queue.addElement(8); // 6, 8
+        assertEquals(8, queue.getA().get(2));
         queue.addElement(4); // 4, 6, 8
         assertEquals(4, queue.getA().get(0));
         queue.addElement(Integer.MAX_VALUE); // 4, 6, 8, max
@@ -24,6 +26,8 @@ class PriorityQueueMinHeapTest {
         assertEquals(Integer.MIN_VALUE, queue.getA().get(0));
         queue.addElement(17); // min, 4, 6, 8, 17, max
         assertEquals(17, queue.getA().get(4));
+        queue.addElement(8); // 6, 8
+        assertEquals(8, queue.getA().get(4));
     }
 
     @Test
