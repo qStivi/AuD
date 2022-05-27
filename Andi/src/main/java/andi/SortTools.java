@@ -14,11 +14,17 @@ public class SortTools {
             System.out.println(ele);
         }
         System.out.println("____________________________________________");
-        quickSortTriRandom(arr);
+        selection(arr, 5);
+
+        /*
+
+        quickSortTriNewRandom(arr);
 
         for (int ele : arr) {
             System.out.println(ele);
         }
+        */
+
     /*
 
     MergeSort:
@@ -129,6 +135,91 @@ public class SortTools {
         */
 
 
+    }
+
+    private static int median(int[] arr) {
+        int m = (int) Math.ceil(arr.length / 2.0);
+        return arr[m];
+    }
+
+    //Unfertig
+    private static int selection(int[] arr, int k) {
+        if(arr.length <= 3) {
+            mergeSort(arr);
+        }
+        int x = (int) Math.ceil(arr.length / 3.0);
+        int[] arr1 = new int[x];
+        int[] arr2 = new int[x];
+        int[] arr3 = new int[arr.length - x * 2];
+        System.arraycopy(arr,0, arr1 , 0 , arr1.length);
+        System.arraycopy(arr, x , arr2, 0, arr2.length);
+        System.arraycopy(arr, x * 2 , arr3, 0, arr3.length);
+        mergeSort(arr1);
+        mergeSort(arr2);
+        mergeSort(arr3);
+        int m = selection(new int[]{median(arr1), median(arr2), median(arr3)}, arr.length / 2);
+        for (int i = 0; i < arr.length; i++) {
+
+        }
+
+        return -1;
+    }
+
+    public static void quickSortTriNewRandom(int[] arr) {
+        quickSortTriRandomHelp(arr, 0, arr.length - 1);
+    }
+
+    private static void quickSortTriNewRandomHelp(int[] arr, int l, int r) {
+        if (l < r) {
+            int[] q = partitionTriRandom(arr, l, r);
+            quickSortTriNewRandomHelp(arr, l, q[0] - 1);
+            quickSortTriNewRandomHelp(arr, q[0] + 1, q[1] - 1);
+            quickSortTriNewRandomHelp(arr, q[1] + 1, r);
+        }
+    }
+
+    private static int[] partitionTriNewRandom(int[] arr, int l, int r) {
+        Random rand = new Random();
+        int random = rand.nextInt(r - l) + l;
+        swap(arr, random, r);
+        int pivotr = arr[r];
+
+        random = rand.nextInt(r - l) + l;
+        swap(arr, random, l);
+        int pivotl = arr[l];
+
+        if (pivotl > pivotr) {
+            swap(arr, l, r);
+            pivotl = arr[l];
+            pivotr = arr[r];
+        }
+
+        int i = l + 1;
+        int g = r - 1;
+
+
+        for (int j = l; j <= g; j++) {
+            if (arr[j] < pivotl) {
+                swap(arr, i, j);
+                i++;
+            } else if (arr[j] >= pivotr) {
+                while (arr[g] > pivotr && j < g) {
+                    g--;
+                }
+                swap(arr, j, g);
+                g--;
+                if (arr[j] < pivotl) {
+                    swap(arr, j, i);
+                    i++;
+                }
+            }
+        }
+        i--;
+        g++;
+
+        swap(arr, i, l);
+        swap(arr, g, r);
+        return new int[]{i, g};
     }
 
     public static void quickSortTriRandom(int[] arr) {
