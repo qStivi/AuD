@@ -383,28 +383,28 @@ public class SortTools {
 
     // region quick-sort
 
-    public static void quickSort(int[] A) {
-        quickSortRec(A, 0, A.length - 1);
+    public static void quickSort(int[] arr) {
+        quickSortHelp(arr, 0, arr.length - 1);
     }
 
-    private static void quickSortRec(int[] A, int l, int r) {
+    private static void quickSortHelp(int[] arr, int l, int r) {
         if (l < r) {
-            var q = partition(A, l, r);
-            quickSortRec(A, l, q - 1);
-            quickSortRec(A, q + 1, r);
+            int q = partition(arr, l, r);
+            quickSortHelp(arr, l, q - 1);
+            quickSortHelp(arr, q + 1, r);
         }
     }
 
-    private static int partition(int[] A, int l, int r) {
-        var x = A[l];
-        var i = r + 1;
+    private static int partition(int[] arr, int l, int r) {
+        int pivot = arr[l];
+        int i = r + 1;
         for (int j = r; j > l; j--) {
-            if (A[j] >= x) {
+            if (arr[j] >= pivot) {
                 i--;
-                swap(A, i, j);
+                swap(arr, i, j);
             }
         }
-        swap(A, i - 1, l);
+        swap(arr, i - 1, l);
         return i - 1;
     }
 
@@ -475,6 +475,129 @@ public class SortTools {
 
     public static boolean isInRange(int inRangeValue, int Value1Inclusive, int Value2Inclusive) {
         return (inRangeValue >= Value1Inclusive && inRangeValue <= Value2Inclusive) || (inRangeValue >= Value2Inclusive && inRangeValue <= Value1Inclusive);
+    }
+
+    public static void quickSortTriRandom(int[] arr) {
+        quickSortTriRandomHelp(arr, 0, arr.length - 1);
+    }
+
+    private static void quickSortTriRandomHelp(int[] arr, int l, int r) {
+        if (l < r) {
+            int[] q = partitionTriRandom(arr, l, r);
+            quickSortTriRandomHelp(arr, l, q[0] - 1);
+            quickSortTriRandomHelp(arr, q[0] + 1, q[1] - 1);
+            quickSortTriRandomHelp(arr, q[1] + 1, r);
+        }
+    }
+
+    private static int[] partitionTriRandom(int[] arr, int l, int r) {
+        Random rand = new Random();
+        int random = rand.nextInt(r - l) + l;
+        swap(arr, random, r);
+        int pivotr = arr[r];
+
+        random = rand.nextInt(r - l) + l;
+        swap(arr, random, l);
+        int pivotl = arr[l];
+
+        if (pivotl > pivotr) {
+            swap(arr, l, r);
+            pivotl = arr[l];
+            pivotr = arr[r];
+        }
+
+        int i = l + 1;
+        int g = r - 1;
+
+        for (int j = l; j <= g; j++) {
+            if (arr[j] < pivotl) {
+                swap(arr, i, j);
+                i++;
+            } else if (arr[j] >= pivotr) {
+                while (arr[g] > pivotr && j < g) {
+                    g--;
+                }
+                swap(arr, j, g);
+                g--;
+                if (arr[j] < pivotl) {
+                    swap(arr, j, i);
+                    i++;
+                }
+            }
+        }
+        i--;
+        g++;
+
+        swap(arr, i, l);
+        swap(arr, g, r);
+        return new int[]{i, g};
+    }
+
+    public static void quickSortTriNewRandom(int[] A) {
+        quickSortTriNewRandomRec(A, 0, A.length - 1);
+    }
+
+    public static void quickSortTriNewRandomRec(int[] A, int l, int r) {
+
+        if (l < r) {
+            int[] q = partitionTriNewRandom(A, l, r);
+            quickSortTriNewRandomRec(A, l, q[0] - 1);
+            quickSortTriNewRandomRec(A, q[0] + 1, q[1] - 1);
+            quickSortTriNewRandomRec(A, q[1] + 1, r);
+        }
+
+    }
+
+    public static int[] partitionTriNewRandom(int[] A, int l, int r) {
+
+        Random random = new Random();
+
+        int[] randElements = new int[5];
+
+        for (int i = 0; i < 5; i++) {
+            int index = random.nextInt(l, r + 1);
+            randElements[i] = A[index];
+        }
+
+        quickSortTriRandom(randElements);
+
+        int x1 = randElements[1];
+        swap(A, SearchTools.linSearch(A, x1), l);
+
+        int x2 = randElements[3];
+        swap(A, SearchTools.linSearch(A, x2), r);
+
+        if (x1 > x2) {
+            swap(A, l, r);
+            x1 = A[l];
+            x2 = A[r];
+        }
+
+        int i = l + 1;
+        int g = r - 1;
+
+        for (int j = l; j <= g; j++) {
+            if (A[j] < x1) {
+                swap(A, i, j);
+                i++;
+            } else if (A[j] >= x2) {
+                while (A[g] > x2 && j < g) {
+                    g--;
+                }
+                swap(A, j, g);
+                g--;
+                if (A[j] < x1) {
+                    swap(A, j, i);
+                    i++;
+                }
+            }
+        }
+        i--;
+        g++;
+
+        swap(A, i, l);
+        swap(A, g, r);
+        return new int[]{i, g};
     }
 
     // endregion

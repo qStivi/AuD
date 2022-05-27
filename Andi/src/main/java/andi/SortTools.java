@@ -254,7 +254,6 @@ public class SortTools {
         int i = l + 1;
         int g = r - 1;
 
-
         for (int j = l; j <= g; j++) {
             if (arr[j] < pivotl) {
                 swap(arr, i, j);
