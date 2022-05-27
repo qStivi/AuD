@@ -26,8 +26,8 @@ public class PriorityQueueMinHeap<K extends Comparable<K>> implements PriorityQu
 
     public void MinHeapify(ArrayList<K> a, int i) {
         int min = -1;
-        int l = 2 * i;
-        int r = 2 * i + 1;
+        int l = 2 * i + 1;
+        int r = 2 * i + 2;
         if (l < a.size() && a.get(l).compareTo(a.get(i)) < 0) {
             min = l;
         } else {
