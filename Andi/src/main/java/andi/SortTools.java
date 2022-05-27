@@ -3,10 +3,22 @@ package andi;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class SortTools {
 
     public static void main(String[] args) {
+
+        int[] arr = createSequenceRand(10);
+        for (int ele : arr) {
+            System.out.println(ele);
+        }
+        System.out.println("____________________________________________");
+        quickSortRandom(arr);
+
+        for (int ele : arr) {
+            System.out.println(ele);
+        }
     /*
 
     MergeSort:
@@ -119,7 +131,174 @@ public class SortTools {
 
     }
 
-    public static <T extends Comparable<T>> void  mergeSortGen(T[] a) {
+    public static void quickSortTriNewRandom(int[] arr) {
+        quickSortTriNewRandomHelp(arr, 0, arr.length - 1);
+    }
+
+    private static void quickSortTriNewRandomHelp(int[] arr, int l, int r) {
+        if (l < r) {
+            int q = partitionTriNewRandom(arr, l, r);
+            int p = partitionTriNewRandom(arr, l, r);
+            if(q < p) {
+                quickSortTriNewRandomHelp(arr, l, q - 1);
+                quickSortTriNewRandomHelp(arr, q + 1, p - 1);
+                quickSortTriNewRandomHelp(arr, p + 1, r);
+            } else {
+                quickSortTriNewRandomHelp(arr, l, p - 1);
+                quickSortTriNewRandomHelp(arr, p + 1, q - 1);
+                quickSortTriNewRandomHelp(arr, q + 1, r);
+            }
+        }
+    }
+
+    private static int partitionTriNewRandom(int[] arr, int l, int r) {
+        int random = getRandom(arr, l, r);
+        swap(arr, random, r);
+        int pivot1 = arr[r];
+        random = getRandom(arr, l, r);
+        swap(arr, random, l);
+        int pivot2 = arr[l];
+        int i = l - 1;
+        for (int j = l; j < r; j++) {
+            if (arr[j] <= pivot1) {
+                i++;
+                swap(arr, i, j);
+            }
+        }
+        swap(arr, i + 1, r);
+        return i + 1;
+    }
+
+    public static void quickSortTriRandom(int[] arr) {
+        quickSortTriRandomHelp(arr, 0, arr.length - 1);
+    }
+
+    private static void quickSortTriRandomHelp(int[] arr, int l, int r) {
+        if (l < r) {
+            int q = partitionTriRandom(arr, l, r);
+            int p = partitionTriRandom(arr, l, r);
+            if(q < p) {
+                quickSortTriRandomHelp(arr, l, q - 1);
+                quickSortTriRandomHelp(arr, q + 1, p - 1);
+                quickSortTriRandomHelp(arr, p + 1, r);
+            } else {
+                quickSortTriRandomHelp(arr, l, p - 1);
+                quickSortTriRandomHelp(arr, p + 1, q - 1);
+                quickSortTriRandomHelp(arr, q + 1, r);
+            }
+        }
+    }
+
+    private static int partitionTriRandom(int[] arr, int l, int r) {
+        int random = getRandom(arr, l, r);
+        swap(arr, random, r);
+        int pivot = arr[r];
+        int i = l - 1;
+        for (int j = l; j < r; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                swap(arr, i, j);
+            }
+        }
+        swap(arr, i + 1, r);
+        return i + 1;
+    }
+
+    public static void quickSortNewRandom(int[] arr) {
+        quickSortNewRandomHelp(arr, 0, arr.length - 1);
+    }
+
+    private static void quickSortNewRandomHelp(int[] arr, int l, int r) {
+        if (l < r) {
+            int q = partitionNewRandom(arr, l, r);
+            quickSortNewRandomHelp(arr, l, q - 1);
+            quickSortNewRandomHelp(arr, q + 1, r);
+        }
+    }
+
+    private static int partitionNewRandom(int[] arr, int l, int r) {
+        int random = getRandom(arr, l, r);
+        swap(arr, random, r);
+        int pivot = arr[r];
+        int i = l - 1;
+        for (int j = l; j < r; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                swap(arr, i, j);
+            }
+        }
+        swap(arr, i + 1, r);
+        return i + 1;
+    }
+
+    private static int getRandom(int[] arr, int l, int r) {
+        Random rand = new Random();
+        int n1 = rand.nextInt(r - l) + l;
+        int n2 = rand.nextInt(r - l) + l;
+        int n3 = rand.nextInt(r - l) + l;
+        if (arr[n2] <= arr[n1] && arr[n1] <= arr[n3]) {
+            return n1;
+        } else if (arr[n1] <= arr[n2] && arr[n2] <= arr[n3]) {
+            return n2;
+        } else {
+            return n3;
+        }
+    }
+
+    public static void quickSortRandom(int[] arr) {
+        quickSortRandomHelp(arr, 0, arr.length - 1);
+    }
+
+    private static void quickSortRandomHelp(int[] arr, int l, int r) {
+        if (l < r) {
+            int q = partitionRandom(arr, l, r);
+            quickSortRandomHelp(arr, l, q - 1);
+            quickSortRandomHelp(arr, q + 1, r);
+        }
+    }
+
+    private static int partitionRandom(int[] arr, int l, int r) {
+        Random rand = new Random();
+        int random = rand.nextInt(r - l) + l;
+        swap(arr, random, r);
+        int pivot = arr[r];
+        int i = l - 1;
+        for (int j = l; j < r; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                swap(arr, i, j);
+            }
+        }
+        swap(arr, i + 1, r);
+        return i + 1;
+    }
+
+    public static void quickSort(int[] arr) {
+        quickSortHelp(arr, 0, arr.length - 1);
+    }
+
+    private static void quickSortHelp(int[] arr, int l, int r) {
+        if (l < r) {
+            int q = partition(arr, l, r);
+            quickSortHelp(arr, l, q - 1);
+            quickSortHelp(arr, q + 1, r);
+        }
+    }
+
+    private static int partition(int[] arr, int l, int r) {
+        int pivot = arr[l];
+        int i = r + 1;
+        for (int j = r; j > l; j--) {
+            if (arr[j] >= pivot) {
+                i--;
+                swap(arr, i, j);
+            }
+        }
+        swap(arr, i - 1, l);
+        return i - 1;
+    }
+
+    public static <T extends Comparable<T>> void mergeSortGen(T[] a) {
         mergeSortHelpGen(a, 0, a.length - 1);
     }
 
@@ -370,5 +549,11 @@ public class SortTools {
             }
         }
         return arr;
+    }
+
+    private static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
     }
 }

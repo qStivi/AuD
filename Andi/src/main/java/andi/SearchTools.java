@@ -5,6 +5,11 @@ import java.util.Random;
 public class SearchTools {
 
     public static void main(String[] args) {
+
+
+        int[] test ={0,1,2,3,4,5,6,7,8,9,10};
+        int result = binSearch(test,10,0,test.length - 1 );
+        System.out.println(result);
         /*
         _________________________________________________________________________________
         LinSearch:
@@ -25,7 +30,7 @@ public class SearchTools {
         2197
         2398
          */
-
+/*
         int[] arr100000 = SortTools.createSequenceInc(100000);
         int[] arr1000000 = SortTools.createSequenceInc(1000000);
         int[] arr100000000 = SortTools.createSequenceInc(100000000);
@@ -184,6 +189,7 @@ public class SearchTools {
         result /= 500;
         System.out.println(result);
         result = 0;
+*/
 
     }
 
@@ -197,7 +203,7 @@ public class SearchTools {
     }
 
     public static int binSearch(int[] A, int x, int l, int r) {
-        if (l < r) {
+        if (l <= r) {
             int pivot = (l + r) / 2;
             if (x == A[pivot]) {
                 return pivot;
