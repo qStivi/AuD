@@ -85,6 +85,58 @@ public class PriorityQueueMaxHeap<K extends Comparable<K>> implements PriorityQu
 
     }
 
+    public void HeapDelete(int i) {
+
+        swap(i, a.size() - 1);
+        a.remove(a.size() - 1);
+
+        if(i == a.size()) {
+            return;
+        }
+
+        while(heapCondition(i)) {
+
+            if(getFatherIndex(i) >= 0 && a.get(getFatherIndex(i)).compareTo(a.get(i)) < 0) {
+                swap(i, getFatherIndex(i));
+                i = getFatherIndex(i);
+            } else {
+
+                if(getLeftIndex(i) < a.size() && getRightIndex(i) < a.size()) {
+                    K max = max(a.get(getLeftIndex(i)), a.get(getRightIndex(i)));
+
+                    if(max.equals(a.get(getLeftIndex(i)))) {
+                        swap(i, getLeftIndex(i));
+                        i = getLeftIndex(i);
+                    } else {
+                        swap(i, getRightIndex(i));
+                        i = getRightIndex(i);
+                    }
+                } else if(getLeftIndex(i) < a.size()) {
+                    swap(i, getLeftIndex(i));
+                    i = getLeftIndex(i);
+                } else if(getRightIndex(i) < a.size()){
+                    swap(i, getRightIndex(i));
+                    i = getRightIndex(i);
+                }
+            }
+        }
+    }
+
+    private boolean heapCondition(int i) {
+
+        return (0 <= getFatherIndex(i) && a.get(getFatherIndex(i)).compareTo(a.get(i)) < 0) ||
+                getLeftIndex(i) < a.size() && a.get(getLeftIndex(i)).compareTo(a.get(i)) > 0 ||
+                getRightIndex(i) < a.size() && a.get(getRightIndex(i)).compareTo(a.get(i)) > 0;
+    }
+
+    private K max(K x, K y) {
+        if(x.compareTo(y) < 0) {
+            return y;
+        } else {
+            return x;
+        }
+    }
+
     private int getLeftIndex(int i) {
         return 2*i + 1;
     }
@@ -112,15 +164,15 @@ public class PriorityQueueMaxHeap<K extends Comparable<K>> implements PriorityQu
 
         PriorityQueueMaxHeap<Integer> heap = new PriorityQueueMaxHeap<>();
 
-        heap.addElement(17);
-        heap.addElement(14);
         heap.addElement(5);
-        heap.addElement(8);
-        heap.addElement(12);
+        heap.addElement(2);
+        heap.addElement(5);
+        heap.addElement(1);
         heap.addElement(1);
         heap.addElement(3);
-        heap.addElement(6);
         heap.addElement(4);
+
+        heap.HeapDelete(6);
 
         System.out.println(heap);
 

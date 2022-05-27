@@ -1,9 +1,7 @@
 package julian;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
 public class SortTools {
 
@@ -424,133 +422,392 @@ public class SortTools {
         return Math.max(Math.max(t1, t2), t3);
     }
 
+    public static void quicksort(int[] A) {
+        quicksortHelp(A, 0, A.length - 1);
+    }
+
+    public static void quicksortRandom(int[] A) {
+        quicksortRandomHelp(A, 0, A.length - 1);
+    }
+
+    public static void quicksortRandomNew(int[] A) {
+        quicksortRandomNewHelp(A, 0, A.length - 1);
+    }
+
+    public static void quicksortHelp(int[] A, int l, int r) {
+        if(l < r) {
+            int q = partition(A, l, r);
+            quicksortHelp(A, l, q - 1);
+            quicksortHelp(A, q + 1, r);
+        }
+    }
+
+    public static void quicksortRandomHelp(int[] A, int l, int r) {
+        if(l < r) {
+            int q = partitionRandom(A, l, r);
+            quicksortRandomHelp(A, l, q - 1);
+            quicksortRandomHelp(A, q + 1, r);
+        }
+    }
+
+    public static void quicksortRandomNewHelp(int[] A, int l, int r) {
+        if(l < r) {
+            int q = partitionRandomNew(A, l, r);
+            quicksortRandomNewHelp(A, l, q - 1);
+            quicksortRandomNewHelp(A, q + 1, r);
+        }
+    }
+
+    public static int partition(int[] A, int l, int r) {
+        int x = A[l];
+
+        int i = r + 1;
+
+        for(int j = r; j > l; j--) {
+            if(A[j] >= x) {
+                i = i - 1;
+                swap(A, i, j);
+            }
+        }
+        swap(A, i - 1, l);
+        return i - 1;
+    }
+
+    public static int partitionRandom(int[] A, int l, int r) {
+        Random random = new Random();
+        int pos = random.nextInt(l, r + 1);
+        int x = A[pos];
+
+        swap(A, pos, r);
+
+        int i = l - 1;
+
+        for(int j = l; j < r; j++) {
+            if(A[j] <= x) {
+                i = i + 1;
+                swap(A, i, j);
+            }
+        }
+        swap(A, i + 1, r);
+        return i + 1;
+    }
+
+    public static int selectMiddle(int x1, int x2, int x3) {
+
+        if (x1 > x2) {
+            if (x2 > x3) {
+                return x2;
+            } else return Math.min(x1, x3);
+        } else {
+            if (x1 > x3) {
+                return x1;
+            } else return Math.min(x2, x3);
+        }
+
+    }
+
+    public static int partitionRandomNew(int[] A, int l, int r) {
+        Random random = new Random();
+        int pos1 = random.nextInt(l, r + 1);
+        int pos2 = random.nextInt(l, r + 1);
+        int pos3 = random.nextInt(l, r + 1);
+
+        int x = selectMiddle(A[pos1], A[pos2], A[pos3]);
+        int pos;
+
+        if(x == A[pos1]) {
+            pos = pos1;
+        } else if(x == A[pos2]) {
+            pos = pos2;
+        } else {
+            pos = pos3;
+        }
+
+        swap(A, pos, r);
+
+        int i = l - 1;
+
+        for(int j = l; j < r; j++) {
+            if(A[j] <= x) {
+                i = i + 1;
+                swap(A, i, j);
+            }
+        }
+        swap(A, i + 1, r);
+        return i + 1;
+    }
+
+    public static int[] partitionArray(int[] A, int q) { //x1 - x1 + q, x2 - x2 + q, x3 - x3 + q (xi bis xq)
+
+        int countSequences = (int) Math.ceil((double) A.length / q);
+
+        int[] startIndices = new int[countSequences];
+
+        for(int i = 0; i < countSequences; i++) {
+            startIndices[i] = i * q;
+        }
+
+        return startIndices;
+    }
+
+    public static int selection(int[] A, int k, int q) { // q = 3
+        if(A.length <= q) {
+            quicksort(A);
+            return A[k - 1];
+        }
+
+        int[] startIndices = partitionArray(A, q);
+        int[] medians = new int[startIndices.length];
+
+        for(int i = 0; i < startIndices.length; i++) {
+
+            if(i != startIndices.length - 1) {
+                quicksortRandomHelp(A, startIndices[i], startIndices[i] + q - 1);
+
+                medians[i] = A[startIndices[i] + (int) Math.floor((q / 2.0))]; //Floor oder ceil?
+
+            } else {
+                quicksortRandomHelp(A, startIndices[i], A.length - 1);
+
+                medians[i] = A[startIndices[i] + (int) Math.floor(((A.length - startIndices[i]) / 2.0))];
+
+            }
+        }
+
+        int m = selection(medians, (int) Math.ceil(medians.length / (2.0 * q)), q);
+
+        List<Integer> A1 = new ArrayList<>();
+        List<Integer> A2 = new ArrayList<>();
+        List<Integer> A3 = new ArrayList<>();
+
+        for(int i = 0; i < A.length; i++) {
+            if(A[i] < m) {
+                A1.add(A[i]);
+            } else if(A[i] == m) {
+                A2.add(A[i]);
+            } else {
+                A3.add(A[i]);
+            }
+        }
+
+        if(A1.size() >= k) {
+
+            int[] A1arr = new int[A1.size()];
+            for(int i = 0; i < A1arr.length; i++) {
+                A1arr[i] = A1.get(i);
+            }
+            return selection(A1arr, k, q);
+
+        } else if(A1.size() + A2.size() >= k) {
+            return m;
+        } else {
+
+            int[] A3arr = new int[A3.size()];
+            for(int i = 0; i < A3arr.length; i++) {
+                A3arr[i] = A3.get(i);
+            }
+
+            return selection(A3arr, k - (A1.size() + A2.size()), q);
+        }
+
+
+    }
+
+    public static void quickSortTriRandom(int[] A, int l, int r) {
+
+        if(r - l >= 1) {
+            int[] q = partitionTriRandom(A, l, r);
+            quickSortTriRandom(A, l, q[0] - 1);
+            quickSortTriRandom(A, q[0] + 1, q[1] - 1);
+            quickSortTriRandom(A, q[1] + 1, r);
+        }
+
+    }
+
+    public static int partitionByX(int[] A, int x, int xIndex, int l, int r) {
+
+        swap(A, xIndex, r);
+
+        int i = l - 1;
+
+        for(int j = l; j < r; j++) {
+            if(A[j] <= x) {
+                i = i + 1;
+                swap(A, i, j);
+            }
+        }
+
+        swap(A, i + 1, r);
+
+        return i + 1;
+    }
+
+    public static int partitionByXNew(int[] A, int x, int l, int r) {
+
+        List<Integer> smaller = new ArrayList<>();
+        List<Integer> equal = new ArrayList<>();
+        List<Integer> bigger = new ArrayList<>();
+
+        for(int i = l; i <= r; i++) {
+            if(A[i] < x) {
+                smaller.add(A[i]);
+            } else if(A[i] > x) {
+                bigger.add(A[i]);
+            } else {
+                equal.add(A[i]);
+            }
+        }
+
+        //Alles vor l bleibt, alles nach r bleibt;
+
+        int leftPointer = 0;
+        int middlePointer = 0;
+        int rightPointer = 0;
+        int insertXAt = 0;
+
+        for(int i = l; i <= r && leftPointer < smaller.size(); i++) {
+            A[i] = smaller.get(leftPointer++);
+        }
+
+        for(int i = l + smaller.size(); middlePointer < equal.size() && i <= r; i++) {
+            A[i] = equal.get(middlePointer++);
+            insertXAt = i;
+        }
+
+        for(int i = l + smaller.size() + equal.size(); rightPointer < bigger.size() && i <= r; i++) {
+            A[i] = bigger.get(rightPointer++);
+        }
+
+        return insertXAt;
+    }
+
+
+    public static int[] partitionTriRandom(int[] A, int l, int r) { //2 zufällige Elemente
+
+        Random random = new Random();
+        int[] pivots = new int[2];
+
+        int first = random.nextInt(l, r + 1);
+        int x1 = A[first];
+        pivots[0] = partitionByX(A, x1, first, l, r);
+
+        int second = random.nextInt(pivots[0], r + 1);
+        int x2 = A[second];
+        pivots[1] = partitionByX(A, x2, second, pivots[0], r);
+
+        return pivots;
+    }
+
+    public static void quickSortTriNewRandom(int[] A, int l, int r) {
+
+        if(r - l + 1 < 5) {
+            quickSortTriRandom(A, l, r);
+        } else {
+            int[] q = partitionTriNewRandom(A, l, r);
+            quickSortTriRandom(A, l, q[0] - 1);
+            quickSortTriRandom(A, q[0] + 1, q[1] - 1);
+            quickSortTriRandom(A, q[1] + 1, r);
+        }
+
+    }
+
+    public static int[] partitionTriNewRandom(int[] A, int l, int r) {
+
+        Random random = new Random();
+        int[] pivots = new int[2];
+        int[] randElements = new int[5];
+
+        for(int i = 0; i < 5; i++) {
+            int index = random.nextInt(l, r + 1);
+            randElements[i] = A[index];
+        }
+
+        quickSortTriRandom(randElements, 0, 4);
+
+        int x1 = randElements[1];
+        pivots[0] = partitionByXNew(A, x1, l, r);
+
+        int x2 = randElements[3];
+        pivots[1] = partitionByXNew(A, x2, pivots[0], r);
+
+        return pivots;
+    }
+
+    public static int[] getKBiggestElements(int[] A, int k) {
+
+        int n = A.length;
+
+        if(k > n) {
+            k = n;
+        }
+
+        if(k < 1) {
+            throw new IllegalArgumentException();
+        }
+
+        int[] output = new int[k];
+        int j = 0;
+
+        int x = selection(A, n - k + 1, 3);
+
+        for(int i = 0; i < n; i++) {
+            if(A[i] >= x) {
+                output[j] = A[i];
+                j++;
+            }
+        }
+
+        Arrays.sort(output);
+        return output;
+    }
+
+    public static int[] getKElementsLowestDistanceMedian(int[] A, int k) {
+
+        int m = selection(A, (int) Math.ceil(A.length / 2.0), 3);
+
+        Tuple[] distanceValue = new Tuple[A.length - 1];
+        int[] distances = new int[A.length - 1];
+        
+        int mIndex = -1;
+
+        for(int i = 0; i < A.length; i++) {
+            if(A[i] == m) {
+                mIndex = i;
+            }
+        }
+        
+        swap(A, mIndex, A.length - 1);
+        
+        int[] Anew = new int[A.length - 1];
+        
+        for(int i = 0; i < Anew.length; i++) {
+            Anew[i] = A[i];
+        }
+
+        for(int i = 0; i < Anew.length; i++) {
+            int abs = Math.abs(Anew[i] - m);
+            distanceValue[i] = new Tuple(abs, Anew[i]);
+            distances[i] = abs;
+        }
+
+        int bound = selection(distances, k, 3);
+
+        int[] result = new int[k];
+        int j = 0;
+
+        for(int i = 0; i < distanceValue.length; i++) {
+            if(j < k && distanceValue[i].getDistance() <= bound) {
+                result[j++] = distanceValue[i].getValue();
+            }
+        }
+
+        return result;
+
+    }
+
+
 
     public static void main(String... args) {
-
-        int[] test1 = createSequenceRand(11);
-
-
-        System.out.println(Arrays.toString(test1));
-        //int[] test1 = new int[]{6, 6, 9, 9, 4, 7, 7, 7, 8, 7};
-
-        System.out.println(maxProfit1(test1));
-        System.out.println(maxProfit2(test1));
-
-//        System.out.println(Arrays.toString(createSequenceRand(8)));
-//
-//        int[] arr100asc = createSequenceInc(100);
-//        int[] arr1000asc = createSequenceInc(1000);
-//        int[] arr10000asc = createSequenceInc(10000);
-//        int[] arr100000asc = createSequenceInc(100000);
-//        int[] arr200000asc = createSequenceInc(200000);
-//
-//        int[] arr100desc = createSequenceDec(100);
-//        int[] arr1000desc = createSequenceDec(1000);
-//        int[] arr10000desc = createSequenceDec(10000);
-//        int[] arr100000desc = createSequenceDec(100000);
-//        int[] arr200000desc = createSequenceDec(200000);
-//
-//        System.out.println("InsertionSort: ");
-//
-//        System.out.println("Ascending:");
-//
-//        System.out.println(testSort(arr100asc, "insertionSort", 10));
-//        System.out.println(testSort(arr1000asc, "insertionSort", 10));
-//        System.out.println(testSort(arr10000asc, "insertionSort", 10));
-//        System.out.println(testSort(arr100000asc, "insertionSort", 10));
-//        System.out.println(testSort(arr200000asc, "insertionSort", 10));
-//
-//        System.out.println("Descending:");
-//
-//        System.out.println(testSort(arr100desc, "insertionSort", 10));
-//        System.out.println(testSort(arr1000desc, "insertionSort", 10));
-//        System.out.println(testSort(arr10000desc, "insertionSort", 10));
-//        System.out.println(testSort(arr100000desc, "insertionSort", 10));
-//        System.out.println(testSort(arr200000desc, "insertionSort", 10));
-//
-//        System.out.println("-------------------------------");
-//
-//        System.out.println("MergeSort:");
-//
-//        System.out.println("Ascending:");
-//
-//        System.out.println(testSort(arr100asc, "mergeSort", 10));
-//        System.out.println(testSort(arr1000asc, "mergeSort", 10));
-//        System.out.println(testSort(arr10000asc, "mergeSort", 10));
-//        System.out.println(testSort(arr100000asc, "mergeSort", 10));
-//        System.out.println(testSort(arr200000asc, "mergeSort", 10));
-//
-//        System.out.println("Descending:");
-//
-//        System.out.println(testSort(arr100desc, "mergeSort", 10));
-//        System.out.println(testSort(arr1000desc, "mergeSort", 10));
-//        System.out.println(testSort(arr10000desc, "mergeSort", 10));
-//        System.out.println(testSort(arr100000desc, "mergeSort", 10));
-//        System.out.println(testSort(arr200000desc, "mergeSort", 10));
-//
-//        System.out.println("-----------------------------");
-//
-//        System.out.println("MergeSortNew:");
-//
-//        System.out.println("Ascending:");
-//
-//        System.out.println(testSort(arr100asc, "mergeSortNew", 10));
-//        System.out.println(testSort(arr1000asc, "mergeSortNew", 10));
-//        System.out.println(testSort(arr10000asc, "mergeSortNew", 10));
-//        System.out.println(testSort(arr100000asc, "mergeSortNew", 10));
-//        System.out.println(testSort(arr200000asc, "mergeSortNew", 10));
-//
-//        System.out.println("Descending:");
-//
-//        System.out.println(testSort(arr100desc, "mergeSortNew", 10));
-//        System.out.println(testSort(arr1000desc, "mergeSortNew", 10));
-//        System.out.println(testSort(arr10000desc, "mergeSortNew", 10));
-//        System.out.println(testSort(arr100000desc, "mergeSortNew", 10));
-//        System.out.println(testSort(arr200000desc, "mergeSortNew", 10));
-
-        /*
-        InsertionSort:
-        Ascending:
-        3616
-        34629
-        223148
-        271995
-        112095
-        Descending:
-        54963
-        549447
-        39341416
-        3934231649
-        16166463582
-        -------------------------------
-        MergeSort:
-        Ascending:
-        79521
-        85879
-        654991
-        3621491
-        6157021
-        Descending:
-        40788
-        69725
-        757384
-        3809321
-        7402262
-        -----------------------------
-        MergeSortNew:
-        Ascending:
-        49280
-        62445
-        661521
-        3161738
-        5962596
-        Descending:
-        2075
-        23733
-        271570
-        3099974
-        5767329
-         */
     }
 
 }

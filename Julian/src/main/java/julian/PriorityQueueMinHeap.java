@@ -18,7 +18,7 @@ public class PriorityQueueMinHeap<K extends Comparable<K>> implements PriorityQu
 
         int i = a.size() - 1;
 
-        while(i > 0 && a.get(getFatherIndex(i)).compareTo(a.get(i)) > 0) {
+        while(i > 0 && a.get(getFatherIndex(i)).compareTo(a.get(i)) > 0) { //
             swap(i, getFatherIndex(i));
             i = getFatherIndex(i);
         }
