@@ -8,24 +8,30 @@ public class Main {
         SearchTree<Integer> searchTree = new SearchTree<>();
 
 
-        searchTree.insert(2);
-        searchTree.insert(4);
-        searchTree.insert(6);
-        searchTree.insert(8);
-        searchTree.insert(9);
-        searchTree.insert(10);
-        searchTree.insert(11);
+        searchTree.insert(30);
+        searchTree.insert(20);
+        searchTree.insert(23);
+        searchTree.insert(3);
+        searchTree.insert(21);
+        searchTree.insert(27);
+        searchTree.insert(45);
+        searchTree.insert(33);
+        searchTree.insert(42);
+        searchTree.insert(51);
+        searchTree.insert(47);
+        searchTree.insert(67);
+
 
 
         //System.out.println(searchTree.maximum().key);
         //System.out.println(searchTree.minimum().key);
 
-        searchTree.delete(8);
-        searchTree.delete(2);
+        //searchTree.delete(8);
+        //searchTree.delete(2);
 
-        searchTree.inorder();
-        ArrayList<Integer> arr = searchTree.toSortedArrayList();
+        searchTree.postorder();
+        //ArrayList<Integer> arr = searchTree.toSortedArrayList();
 
-        System.out.println(arr.toString());
+        //System.out.println(arr.toString());
     }
 }

@@ -146,5 +146,16 @@ public class SearchTree<T extends Comparable<T>> {
         }
     }
 
+    public void postorder() {
+        postorderHelper(this.root);
+    }
+
+    private void postorderHelper(Node<T> x) {
+        if (x != null) {
+            postorderHelper(x.left);
+            postorderHelper(x.right);
+            System.out.println(x.key);
+        }
+    }
 
 }
