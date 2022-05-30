@@ -1,5 +1,6 @@
 package com.qStivi;
 
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -130,18 +131,32 @@ class SortToolsTest {
         assertArrayEquals(SortTools.createSequenceInc(33), arr);
     }
 
-    @Test
+    @RepeatedTest(100)
     void quickSortRandom() {
         var arr = SortTools.createSequenceDec(33);
         SortTools.quickSortRandom(arr);
-        assertArrayEquals(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33}, arr);
+        assertArrayEquals(SortTools.createSequenceInc(33), arr);
     }
 
-    @Test
+    @RepeatedTest(100)
     void quickSortNewRandom() {
         var arr = SortTools.createSequenceDec(33);
         SortTools.quickSortNewRandom(arr);
-        assertArrayEquals(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33}, arr);
+        assertArrayEquals(SortTools.createSequenceInc(33), arr);
+    }
+
+    @RepeatedTest(100)
+    void quickSortTriRandom() {
+        var arr = SortTools.createSequenceDec(33);
+        SortTools.quickSortTriRandom(arr);
+        assertArrayEquals(SortTools.createSequenceInc(33), arr);
+    }
+
+    @RepeatedTest(100)
+    void quickSortTriNewRandom() {
+        var arr = SortTools.createSequenceDec(33);
+        SortTools.quickSortTriNewRandom(arr);
+        assertArrayEquals(SortTools.createSequenceInc(33), arr);
     }
 
     // endregion

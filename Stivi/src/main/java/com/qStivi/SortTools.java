@@ -383,28 +383,28 @@ public class SortTools {
 
     // region quick-sort
 
-    public static void quickSort(int[] A) {
-        quickSortRec(A, 0, A.length - 1);
+    public static void quickSort(int[] arr) {
+        quickSortHelp(arr, 0, arr.length - 1);
     }
 
-    private static void quickSortRec(int[] A, int l, int r) {
+    private static void quickSortHelp(int[] arr, int l, int r) {
         if (l < r) {
-            var q = partition(A, l, r);
-            quickSortRec(A, l, q - 1);
-            quickSortRec(A, q + 1, r);
+            int q = partition(arr, l, r);
+            quickSortHelp(arr, l, q - 1);
+            quickSortHelp(arr, q + 1, r);
         }
     }
 
-    private static int partition(int[] A, int l, int r) {
-        var x = A[l];
-        var i = r + 1;
+    private static int partition(int[] arr, int l, int r) {
+        int pivot = arr[l];
+        int i = r + 1;
         for (int j = r; j > l; j--) {
-            if (A[j] >= x) {
+            if (arr[j] >= pivot) {
                 i--;
-                swap(A, i, j);
+                swap(arr, i, j);
             }
         }
-        swap(A, i - 1, l);
+        swap(arr, i - 1, l);
         return i - 1;
     }
 
@@ -475,6 +475,130 @@ public class SortTools {
 
     public static boolean isInRange(int inRangeValue, int Value1Inclusive, int Value2Inclusive) {
         return (inRangeValue >= Value1Inclusive && inRangeValue <= Value2Inclusive) || (inRangeValue >= Value2Inclusive && inRangeValue <= Value1Inclusive);
+    }
+
+    public static void quickSortTriRandom(int[] arr) {
+        quickSortTriRandomHelp(arr, 0, arr.length - 1);
+    }
+
+    private static void quickSortTriRandomHelp(int[] arr, int l, int r) {
+        if (l < r) {
+            int[] q = partitionTriRandom(arr, l, r);
+            quickSortTriRandomHelp(arr, l, q[0] - 1);
+            quickSortTriRandomHelp(arr, q[0] + 1, q[1] - 1);
+            quickSortTriRandomHelp(arr, q[1] + 1, r);
+        }
+    }
+
+    private static int[] partitionTriRandom(int[] arr, int l, int r) {
+        Random rand = new Random();
+        int random = rand.nextInt(r - l) + l;
+        swap(arr, random, r);
+        int pivotr = arr[r];
+
+        random = rand.nextInt(r - l) + l;
+        swap(arr, random, l);
+        int pivotl = arr[l];
+
+        if (pivotl > pivotr) {
+            swap(arr, l, r);
+            pivotl = arr[l];
+            pivotr = arr[r];
+        }
+
+        int i = l + 1;
+        int g = r - 1;
+
+        for (int j = l; j <= g; j++) {
+            if (arr[j] < pivotl) {
+                swap(arr, i, j);
+                i++;
+            } else if (arr[j] >= pivotr) {
+                while (arr[g] > pivotr && j < g) {
+                    g--;
+                }
+                swap(arr, j, g);
+                g--;
+                if (arr[j] < pivotl) {
+                    swap(arr, j, i);
+                    i++;
+                }
+            }
+        }
+        i--;
+        g++;
+
+        swap(arr, i, l);
+        swap(arr, g, r);
+        return new int[]{i, g};
+    }
+
+    // Wir wissen, dass es nicht geht :(
+    // Es ist immer nur ein Index oder so falsch, aber wir verstehen nicht warum...
+    public static void quickSortTriNewRandom(int[] A) {
+        quickSortTriNewRandomRec(A, 0, A.length - 1);
+    }
+
+    public static void quickSortTriNewRandomRec(int[] A, int l, int r) {
+
+        if (l < r) {
+            int[] q = partitionTriNewRandom(A, l, r);
+            quickSortTriNewRandomRec(A, l, q[0] - 1);
+            quickSortTriNewRandomRec(A, q[0] + 1, q[1] - 1);
+            quickSortTriNewRandomRec(A, q[1] + 1, r);
+        }
+
+    }
+
+    public static int[] partitionTriNewRandom(int[] A, int l, int r) {
+
+        Random random = new Random();
+
+        int[] randElements = new int[5];
+
+        for (int i = 0; i < 5; i++) {
+            randElements[i] = A[random.nextInt(l, r + 1)];
+        }
+
+        quickSortTriRandom(randElements);
+
+        int x1 = randElements[1];
+        swap(A, SearchTools.linSearch(A, x1), l);
+
+        int x2 = randElements[3];
+        swap(A, SearchTools.linSearch(A, x2), r);
+
+        if (x1 > x2) {
+            swap(A, l, r);
+            x1 = A[l];
+            x2 = A[r];
+        }
+
+        int i = l + 1;
+        int g = r - 1;
+
+        for (int j = l; j <= g; j++) {
+            if (A[j] < x1) {
+                swap(A, i, j);
+                i++;
+            } else if (A[j] >= x2) {
+                while (A[g] > x2 && j < g) {
+                    g--;
+                }
+                swap(A, j, g);
+                g--;
+                if (A[j] < x1) {
+                    swap(A, j, i);
+                    i++;
+                }
+            }
+        }
+        i--;
+        g++;
+
+        swap(A, i, l);
+        swap(A, g, r);
+        return new int[]{i, g};
     }
 
     // endregion
@@ -677,6 +801,63 @@ public class SortTools {
         return meanTime / NUMBER_OF_ITERATIONS; // divide total by number of iterations
     }
 
+    public static long getMeanTimeQuickSort(int[] array) {
+        var meanTime = 0L;
+        for (int i = 0; i < NUMBER_OF_ITERATIONS; i++) { // do it x times
+
+            var arr = Arrays.copyOf(array, array.length); // Create copy of array
+
+            var startTimer = System.nanoTime(); // Get start time
+
+            quickSort(arr); // Sort array
+
+            var endTimer = System.nanoTime(); // Get end time
+
+            long diff = endTimer - startTimer; // Calculate runtime
+
+            meanTime += diff; // add difference to total
+        }
+        return meanTime / NUMBER_OF_ITERATIONS; // divide total by number of iterations
+    }
+
+    public static long getMeanTimeQuickSortRandom(int[] array) {
+        var meanTime = 0L;
+        for (int i = 0; i < NUMBER_OF_ITERATIONS; i++) { // do it x times
+
+            var arr = Arrays.copyOf(array, array.length); // Create copy of array
+
+            var startTimer = System.nanoTime(); // Get start time
+
+            quickSortRandom(arr); // Sort array
+
+            var endTimer = System.nanoTime(); // Get end time
+
+            long diff = endTimer - startTimer; // Calculate runtime
+
+            meanTime += diff; // add difference to total
+        }
+        return meanTime / NUMBER_OF_ITERATIONS; // divide total by number of iterations
+    }
+
+    public static long getMeanTimeQuickSortNewRandom(int[] array) {
+        var meanTime = 0L;
+        for (int i = 0; i < NUMBER_OF_ITERATIONS; i++) { // do it x times
+
+            var arr = Arrays.copyOf(array, array.length); // Create copy of array
+
+            var startTimer = System.nanoTime(); // Get start time
+
+            quickSortNewRandom(arr); // Sort array
+
+            var endTimer = System.nanoTime(); // Get end time
+
+            long diff = endTimer - startTimer; // Calculate runtime
+
+            meanTime += diff; // add difference to total
+        }
+        return meanTime / NUMBER_OF_ITERATIONS; // divide total by number of iterations
+    }
+
     //endregion
 
 
@@ -699,75 +880,133 @@ public class SortTools {
         var hundredThousandInc = createSequenceInc(100000);
         var twoHundredThousandInc = createSequenceInc(200000);
 
-//        System.out.println("BubbleSortInc");
-//        System.out.println("100: " + getMeanTimeBubbleSort(hundredInc));
-//        System.out.println("1.000: " + getMeanTimeBubbleSort(thousandInc));
-//        System.out.println("10.000: " + getMeanTimeBubbleSort(tenThousandInc));
-//        System.out.println("100.000: " + getMeanTimeBubbleSort(hundredThousandInc));
-//        System.out.println("200.000: " + getMeanTimeBubbleSort(twoHundredThousandInc) + System.lineSeparator());
-//
-//        System.out.println("BubbleSortNewInc");
-//        System.out.println("100: " + getMeanTimeBubbleSortNew(hundredInc));
-//        System.out.println("1.000: " + getMeanTimeBubbleSortNew(thousandInc));
-//        System.out.println("10.000: " + getMeanTimeBubbleSortNew(tenThousandInc));
-//        System.out.println("100.000: " + getMeanTimeBubbleSortNew(hundredThousandInc));
-//        System.out.println("200.000: " + getMeanTimeBubbleSortNew(twoHundredThousandInc) + System.lineSeparator());
-
-        System.out.println("MergeSortInc");
-        System.out.println("100: " + getMeanTimeMergeSort(hundredInc));
-        System.out.println("1.000: " + getMeanTimeMergeSort(thousandInc));
-        System.out.println("10.000: " + getMeanTimeMergeSort(tenThousandInc));
-        System.out.println("100.000: " + getMeanTimeMergeSort(hundredThousandInc));
-        System.out.println("200.000: " + getMeanTimeMergeSort(twoHundredThousandInc) + System.lineSeparator());
-
-        System.out.println("MergeSortNewInc");
-        System.out.println("100: " + getMeanTimeMergeSortNew(hundredInc));
-        System.out.println("1.000: " + getMeanTimeMergeSortNew(thousandInc));
-        System.out.println("10.000: " + getMeanTimeMergeSortNew(tenThousandInc));
-        System.out.println("100.000: " + getMeanTimeMergeSortNew(hundredThousandInc));
-        System.out.println("200.000: " + getMeanTimeMergeSortNew(twoHundredThousandInc) + System.lineSeparator() + System.lineSeparator());
-
-        System.out.println("InsertionSortInc");
-        System.out.println("100: " + getMeanTimeInsertionSort(hundredInc));
-        System.out.println("1.000: " + getMeanTimeInsertionSort(thousandInc));
-        System.out.println("10.000: " + getMeanTimeInsertionSort(tenThousandInc));
-        System.out.println("100.000: " + getMeanTimeInsertionSort(hundredThousandInc));
-        System.out.println("200.000: " + getMeanTimeInsertionSort(twoHundredThousandInc) + System.lineSeparator());
+        var hundredRand = createSequenceRand(100);
+        var thousandRand = createSequenceRand(1000);
+        var tenThousandRand = createSequenceRand(10000);
+        var hundredThousandRand = createSequenceRand(100000);
+        var twoHundredThousandRand = createSequenceRand(200000);
 
 
-//        System.out.println("BubbleSortDec");
-//        System.out.println("100: " + getMeanTimeBubbleSort(hundredDec));
-//        System.out.println("1.000: " + getMeanTimeBubbleSort(thousandDec));
-//        System.out.println("10.000: " + getMeanTimeBubbleSort(tenThousandDec));
-//        System.out.println("100.000: " + getMeanTimeBubbleSort(hundredThousandDec));
-//        System.out.println("200.000: " + getMeanTimeBubbleSort(twoHundredThousandDec) + System.lineSeparator());
-//
-//        System.out.println("BubbleSortNewDec");
-//        System.out.println("100: " + getMeanTimeBubbleSortNew(hundredDec));
-//        System.out.println("1.000: " + getMeanTimeBubbleSortNew(thousandDec));
-//        System.out.println("10.000: " + getMeanTimeBubbleSortNew(tenThousandDec));
-//        System.out.println("100.000: " + getMeanTimeBubbleSortNew(hundredThousandDec));
-//        System.out.println("200.000: " + getMeanTimeBubbleSortNew(twoHundredThousandDec) + System.lineSeparator());
+        System.out.println("quickSortDec");
+        System.out.println("100: " + getMeanTimeQuickSort(hundredDec));
+        System.out.println("1.000: " + getMeanTimeQuickSort(thousandDec));
+        System.out.println("10.000: " + getMeanTimeQuickSort(tenThousandDec));
+        System.out.println("100.000: " + "StackOverflow");
+        System.out.println("200.000: " + "StackOverflow" + System.lineSeparator());
+        System.out.println("quickSortInc");
+        System.out.println("100: " + getMeanTimeQuickSort(hundredInc));
+        System.out.println("1.000: " + getMeanTimeQuickSort(thousandInc));
+        System.out.println("10.000: " + getMeanTimeQuickSort(tenThousandInc));
+        System.out.println("100.000: " + "StackOverflow");
+        System.out.println("200.000: " + "StackOverflow" + System.lineSeparator());
+        System.out.println("quickSortRand");
+        System.out.println("100: " + getMeanTimeQuickSort(hundredRand));
+        System.out.println("1.000: " + getMeanTimeQuickSort(thousandRand));
+        System.out.println("10.000: " + getMeanTimeQuickSort(tenThousandRand));
+        System.out.println("100.000: " + getMeanTimeQuickSort(hundredThousandRand));
+        System.out.println("200.000: " + getMeanTimeQuickSort(twoHundredThousandRand) + System.lineSeparator());
 
-        System.out.println("MergeSortDec");
-        System.out.println("100: " + getMeanTimeMergeSort(hundredDec));
-        System.out.println("1.000: " + getMeanTimeMergeSort(thousandDec));
-        System.out.println("10.000: " + getMeanTimeMergeSort(tenThousandDec));
-        System.out.println("100.000: " + getMeanTimeMergeSort(hundredThousandDec));
-        System.out.println("200.000: " + getMeanTimeMergeSort(twoHundredThousandDec) + System.lineSeparator());
+        System.out.println("quickSortRandomDec");
+        System.out.println("100: " + getMeanTimeQuickSortRandom(hundredDec));
+        System.out.println("1.000: " + getMeanTimeQuickSortRandom(thousandDec));
+        System.out.println("10.000: " + getMeanTimeQuickSortRandom(tenThousandDec));
+        System.out.println("100.000: " + getMeanTimeQuickSortRandom(hundredThousandDec));
+        System.out.println("200.000: " + getMeanTimeQuickSortRandom(twoHundredThousandDec) + System.lineSeparator());
+        System.out.println("quickSortRandomInc");
+        System.out.println("100: " + getMeanTimeQuickSortRandom(hundredInc));
+        System.out.println("1.000: " + getMeanTimeQuickSortRandom(thousandInc));
+        System.out.println("10.000: " + getMeanTimeQuickSortRandom(tenThousandInc));
+        System.out.println("100.000: " + getMeanTimeQuickSortRandom(hundredThousandInc));
+        System.out.println("200.000: " + getMeanTimeQuickSortRandom(twoHundredThousandInc) + System.lineSeparator());
+        System.out.println("quickSortRandomRand");
+        System.out.println("100: " + getMeanTimeQuickSortRandom(hundredRand));
+        System.out.println("1.000: " + getMeanTimeQuickSortRandom(thousandRand));
+        System.out.println("10.000: " + getMeanTimeQuickSortRandom(tenThousandRand));
+        System.out.println("100.000: " + getMeanTimeQuickSortRandom(hundredThousandRand));
+        System.out.println("200.000: " + getMeanTimeQuickSortRandom(twoHundredThousandRand) + System.lineSeparator());
 
-        System.out.println("MergeSortNewDec");
-        System.out.println("100: " + getMeanTimeMergeSortNew(hundredDec));
-        System.out.println("1.000: " + getMeanTimeMergeSortNew(thousandDec));
-        System.out.println("10.000: " + getMeanTimeMergeSortNew(tenThousandDec));
-        System.out.println("100.000: " + getMeanTimeMergeSortNew(hundredThousandDec));
-        System.out.println("200.000: " + getMeanTimeMergeSortNew(twoHundredThousandDec) + System.lineSeparator());
+        System.out.println("quickSortNewRandomDec");
+        System.out.println("100: " + getMeanTimeQuickSortNewRandom(hundredDec));
+        System.out.println("1.000: " + getMeanTimeQuickSortNewRandom(thousandDec));
+        System.out.println("10.000: " + getMeanTimeQuickSortNewRandom(tenThousandDec));
+        System.out.println("100.000: " + getMeanTimeQuickSortNewRandom(hundredThousandDec));
+        System.out.println("200.000: " + getMeanTimeQuickSortNewRandom(twoHundredThousandDec) + System.lineSeparator());
+        System.out.println("quickSortInc");
+        System.out.println("100: " + getMeanTimeQuickSortNewRandom(hundredInc));
+        System.out.println("1.000: " + getMeanTimeQuickSortNewRandom(thousandInc));
+        System.out.println("10.000: " + getMeanTimeQuickSortNewRandom(tenThousandInc));
+        System.out.println("100.000: " + getMeanTimeQuickSortNewRandom(hundredThousandInc));
+        System.out.println("200.000: " + getMeanTimeQuickSortNewRandom(twoHundredThousandInc) + System.lineSeparator());
+        System.out.println("quickSortRand");
+        System.out.println("100: " + getMeanTimeQuickSortNewRandom(hundredRand));
+        System.out.println("1.000: " + getMeanTimeQuickSortNewRandom(thousandRand));
+        System.out.println("10.000: " + getMeanTimeQuickSortNewRandom(tenThousandRand));
+        System.out.println("100.000: " + getMeanTimeQuickSortNewRandom(hundredThousandRand));
+        System.out.println("200.000: " + getMeanTimeQuickSortNewRandom(twoHundredThousandRand) + System.lineSeparator());
 
-        System.out.println("InsertionSortDec");
-        System.out.println("100: " + getMeanTimeInsertionSort(hundredDec));
-        System.out.println("1.000: " + getMeanTimeInsertionSort(thousandDec));
-        System.out.println("10.000: " + getMeanTimeInsertionSort(tenThousandDec));
-        System.out.println("100.000: " + getMeanTimeInsertionSort(hundredThousandDec));
-        System.out.println("200.000: " + getMeanTimeInsertionSort(twoHundredThousandDec) + System.lineSeparator());
+        /*
+        quickSortDec
+        100: 6852
+        1.000: 238152
+        10.000: 21841233
+        100.000: StackOverflow
+        200.000: StackOverflow
+
+        quickSortInc
+        100: 3320
+        1.000: 271339
+        10.000: 26288631
+        100.000: StackOverflow
+        200.000: StackOverflow
+
+        quickSortRand
+        100: 710
+        1.000: 9457
+        10.000: 402488
+        100.000: 5220725
+        200.000: 11203428
+
+        quickSortRandomDec
+        100: 5935
+        1.000: 39400
+        10.000: 407915
+        100.000: 4324878
+        200.000: 8766202
+
+        quickSortRandomInc
+        100: 3392
+        1.000: 35245
+        10.000: 376787
+        100.000: 4032247
+        200.000: 8210054
+
+        quickSortRandomRand
+        100: 4365
+        1.000: 55125
+        10.000: 669480
+        100.000: 7744353
+        200.000: 15971181
+
+        quickSortNewRandomDec
+        100: 7216
+        1.000: 49681
+        10.000: 509625
+        100.000: 5286046
+        200.000: 10677780
+
+        quickSortInc
+        100: 4252
+        1.000: 43221
+        10.000: 452712
+        100.000: 4668486
+        200.000: 9455430
+
+        quickSortRand
+        100: 5467
+        1.000: 65774
+        10.000: 767794
+        100.000: 9256185
+        200.000: 18721439
+         */
     }
 }
