@@ -681,7 +681,6 @@ public class SortTools {
         return insertXAt;
     }
 
-
     public static int[] partitionTriRandom(int[] A, int l, int r) { //2 zufällige Elemente
 
         Random random = new Random();
@@ -704,9 +703,9 @@ public class SortTools {
             quickSortTriRandom(A, l, r);
         } else {
             int[] q = partitionTriNewRandom(A, l, r);
-            quickSortTriRandom(A, l, q[0] - 1);
-            quickSortTriRandom(A, q[0] + 1, q[1] - 1);
-            quickSortTriRandom(A, q[1] + 1, r);
+            quickSortTriNewRandom(A, l, q[0] - 1);
+            quickSortTriNewRandom(A, q[0] + 1, q[1] - 1);
+            quickSortTriNewRandom(A, q[1] + 1, r);
         }
 
     }
@@ -805,9 +804,14 @@ public class SortTools {
 
     }
 
-
-
     public static void main(String... args) {
+
+        int[] arr = createSequenceDec(33);
+
+        quickSortTriNewRandom(arr, 0, arr.length - 1);
+
+        System.out.println(Arrays.toString(arr));
+
     }
 
 }
