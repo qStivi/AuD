@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
 
-        SearchTree<Integer> searchTree = new SearchTree<>();
+        BalancedSearchTree<Integer> searchTree = new BalancedSearchTree<>();
 
 
         searchTree.insert(30);
@@ -16,10 +16,18 @@ public class Main {
         searchTree.insert(27);
         searchTree.insert(45);
         searchTree.insert(33);
+        searchTree.insert(32);
         searchTree.insert(42);
         searchTree.insert(51);
         searchTree.insert(47);
         searchTree.insert(67);
+
+        //searchTree.doubleLeftRotate(30);
+        //searchTree.doubleRightRotate(33);
+        //searchTree.doubleRightRotate(33);
+        //System.out.println(searchTree.getRoot().key);
+        //double res = searchTree.countSubTree(searchTree.getRoot());
+        //System.out.println(res);
 
 
 
@@ -29,7 +37,10 @@ public class Main {
         //searchTree.delete(8);
         //searchTree.delete(2);
 
-        searchTree.postorder();
+        searchTree.inorder();
+
+        searchTree.levelOrderTraversal(searchTree.getRoot());
+
         //ArrayList<Integer> arr = searchTree.toSortedArrayList();
 
         //System.out.println(arr.toString());
