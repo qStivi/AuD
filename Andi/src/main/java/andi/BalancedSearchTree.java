@@ -68,7 +68,8 @@ public class BalancedSearchTree<T extends Comparable<T>> {
         if (y != z) {
             z.key = y.key;
         }
-        rebalanceTree(z, alpha);
+
+        rebalanceTree(x, alpha);
     }
 
     public Node<T> treeSucessor(Node<T> x) {
