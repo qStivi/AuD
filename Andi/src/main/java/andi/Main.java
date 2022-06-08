@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
 
-        BalancedSearchTree<Integer> searchTree = new BalancedSearchTree<>();
+        BalancedSearchTree<Integer> searchTree = new BalancedSearchTree<>(0.25);
 
 
         searchTree.insert(30);

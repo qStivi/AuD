@@ -4,7 +4,13 @@ import java.util.ArrayList;
 
 public class BalancedSearchTree<T extends Comparable<T>> {
 
-    double alpha = 0.25;
+    private final double alpha;
+
+    public BalancedSearchTree(double alpha) {
+        this.alpha = alpha;
+        this.root = null;
+    }
+
     double b = 0.2373557003;
     private Node<T> root;
 
