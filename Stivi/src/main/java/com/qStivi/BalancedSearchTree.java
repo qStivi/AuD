@@ -173,4 +173,35 @@ public class BalancedSearchTree<K extends Comparable<K>> {
         }
         return list;
     }
+
+    // Function to print all nodes of a given level from left to right
+    public boolean printLevel(Node<K> root, int level) {
+        // base case
+        if (root == null) {
+            return false;
+        }
+
+        if (level == 1) {
+            System.out.print(root.key + " ");
+
+            // return true if at least one node is present at a given level
+            return true;
+        }
+
+        boolean left = printLevel(root.left, level - 1);
+        boolean right = printLevel(root.right, level - 1);
+
+        return left || right;
+    }
+
+    // Function to print level order traversal of a given binary tree
+    public void levelOrderTraversal(Node<K> root) {
+        // start from level 1 — till the height of the tree
+        int level = 1;
+
+        // run till printLevel() returns false
+        while (printLevel(root, level)) {
+            level++;
+        }
+    }
 }
