@@ -13,7 +13,7 @@ public class SearchTree<K extends Comparable<K>> {
 
     public void insert(K key) {
         var z = new Node<>(key);
-        var y = root;
+        var y = this.root;
         while (y != null) {
             z.parent = y;
             if (z.key.compareTo(y.key) < 0) {
@@ -34,11 +34,10 @@ public class SearchTree<K extends Comparable<K>> {
     }
 
     public ArrayList<K> toSortedArrayList(Node<K> root) {
-        return toSortedArrayListHelper(root, null);
+        return toSortedArrayListHelper(root, new ArrayList<>());
     }
 
     private ArrayList<K> toSortedArrayListHelper(Node<K> root, ArrayList<K> list) {
-        if (list == null) list = new ArrayList<K>();
         if (root != null) {
             toSortedArrayListHelper(root.left, list);
             list.add(root.key);
@@ -87,6 +86,7 @@ public class SearchTree<K extends Comparable<K>> {
     }
 
     public Node<K> maximum(Node<K> x) {
+        if (x == null) throw new NoSuchElementException("Tree is empty!");
         while (x.right != null) {
             x = x.right;
         }

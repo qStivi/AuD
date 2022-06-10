@@ -4,6 +4,20 @@ import java.util.ArrayList;
 
 public class BalancedSearchTree<T extends Comparable<T>> {
 
+    public static void main(String[] args) {
+        var t = new BalancedSearchTree<Integer>(((1 - ((double) 1 / Math.sqrt(2))) + ((double) 2 / 11)) / 2);
+        for (int i = 0; i < 100; i++) {
+            t.insert(i);
+        }
+        System.out.println(t.countSubTree(t.root.left));
+        System.out.println(t.countSubTree(t.root.right));
+        for (int i = 0; i < 50; i++) {
+            t.delete(i);
+        }
+        System.out.println(t.countSubTree(t.root.left));
+        System.out.println(t.countSubTree(t.root.right));
+    }
+
     private final double alpha;
 
     public BalancedSearchTree(double alpha) {
