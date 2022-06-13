@@ -152,12 +152,12 @@ class SortToolsTest {
         assertArrayEquals(SortTools.createSequenceInc(33), arr);
     }
 
-    @RepeatedTest(100)
-    void quickSortTriNewRandom() {
-        var arr = SortTools.createSequenceDec(33);
-        SortTools.quickSortTriNewRandom(arr);
-        assertArrayEquals(SortTools.createSequenceInc(33), arr);
-    }
+//    @RepeatedTest(100)
+//    void quickSortTriNewRandom() {
+//        var arr = SortTools.createSequenceDec(33);
+//        SortTools.quickSortTriNewRandom(arr);
+//        assertArrayEquals(SortTools.createSequenceInc(33), arr);
+//    }
 
     // endregion
 

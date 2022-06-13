@@ -1,27 +1,48 @@
 package andi;
 
+import java.util.ArrayList;
+
 public class Main {
-
-    public static int maxWin(int[] a, int p, int r, int t1, int t2) {
-        int result = 0;
-        if (t1 < t2) {
-
-        }
-        return result;
-    }
-
-    public static void test(double a, double b) {
-        while (true) {
-            System.out.println((a + b) / 2.0);
-            if (Math.pow((a + b) / 2.0, 2) <= 7) {
-                a = (a + b) / 2.0;
-            } else {
-                b = (a + b) / 2.0;
-            }
-        }
-    }
-
     public static void main(String[] args) {
-        test(2.0, 3.0);
+
+        BalancedSearchTree<Integer> searchTree = new BalancedSearchTree<>(0.25);
+
+
+        searchTree.insert(30);
+        searchTree.insert(20);
+        searchTree.insert(23);
+        searchTree.insert(3);
+        searchTree.insert(21);
+        searchTree.insert(27);
+        searchTree.insert(45);
+        searchTree.insert(33);
+        searchTree.insert(32);
+        searchTree.insert(42);
+        searchTree.insert(51);
+        searchTree.insert(47);
+        searchTree.insert(67);
+
+        //searchTree.doubleLeftRotate(30);
+        //searchTree.doubleRightRotate(33);
+        //searchTree.doubleRightRotate(33);
+        //System.out.println(searchTree.getRoot().key);
+        //double res = searchTree.countSubTree(searchTree.getRoot());
+        //System.out.println(res);
+
+
+
+        //System.out.println(searchTree.maximum().key);
+        //System.out.println(searchTree.minimum().key);
+
+        //searchTree.delete(8);
+        //searchTree.delete(2);
+
+        searchTree.inorder();
+
+        searchTree.levelOrderTraversal(searchTree.getRoot());
+
+        //ArrayList<Integer> arr = searchTree.toSortedArrayList();
+
+        //System.out.println(arr.toString());
     }
 }

@@ -3,7 +3,6 @@ package julian;
 import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
-import java.util.Random;
 
 public class SearchTree<K extends Comparable<K>>{
 
@@ -33,17 +32,19 @@ public class SearchTree<K extends Comparable<K>>{
         SearchTree<K> insertElement = new SearchTree<>(key, null, null, null);
         SearchTree<K> current = this.root;
 
-        while(current != null && current.key != null) {
+        while (current != null && current.key != null) {
             insertElement.parent = current;
-            if(insertElement.key.compareTo(current.key) < 0) {
+            if (insertElement.key.compareTo(current.key) < 0) {
                 current = current.left;
             } else {
                 current = current.right;
             }
-        } if(insertElement.parent == null) {
+        }
+
+        if (insertElement.parent == null) {
             this.root = insertElement;
         } else {
-            if(insertElement.key.compareTo(insertElement.parent.key) < 0) {
+            if (insertElement.key.compareTo(insertElement.parent.key) < 0) {
                 insertElement.parent.left = insertElement;
             } else {
                 insertElement.parent.right = insertElement;
@@ -105,9 +106,9 @@ public class SearchTree<K extends Comparable<K>>{
     private SearchTree<K> findNode(K key) throws NoSuchElementException{
         SearchTree<K> current = this.root;
 
-        while(current != null && current.key != key) {
+        while (current != null && !current.key.equals(key)) {
 
-            if(key.compareTo(current.key) < 0) {
+            if (key.compareTo(current.key) < 0) {
                 current = current.left;
             } else {
                 current = current.right;
