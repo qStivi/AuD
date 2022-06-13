@@ -1,5 +1,6 @@
 package julian;
 
+import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Random;
@@ -134,6 +135,18 @@ public class SearchTree<K extends Comparable<K>>{
         return y;
     }
 
+    private SearchTree<K> findPredecessor(SearchTree<K> x) {
+        if(x.left != null) {
+            return findMaximum(x.left);
+        }
+        SearchTree<K> y = x.parent;
+        while(y != null && x == y.left) {
+            x = y;
+            y = x.parent;
+        }
+        return y;
+    }
+
     private SearchTree<K> findMinimum(SearchTree<K> x) {
         SearchTree<K> current = x;
 
@@ -167,25 +180,39 @@ public class SearchTree<K extends Comparable<K>>{
         return list;
     }
 
+    public ArrayList<SearchTree<K>> getAllLeaves() {
+        return getAllLeavesHelper(this.root, new ArrayList<>());
+    }
+
+    private ArrayList<SearchTree<K>> getAllLeavesHelper(SearchTree<K> x, ArrayList<SearchTree<K>> leaves) {
+
+        if(x.right == null && x.left == null) {
+            leaves.add(x);
+        } else {
+            getAllLeavesHelper(x.left, leaves);
+            getAllLeavesHelper(x.right, leaves);
+        }
+        return leaves;
+    }
+
     public static void main(String[] args) {
 
         SearchTree<Integer> searchTree = new SearchTree<>();
 
-        //insert[1,2)
-        searchTree.insert(2);
-        //insert(3)
-        searchTree.insert(4);
-        //insert(5)
-        searchTree.insert(6);
-        //insert(7)
         searchTree.insert(8);
-        searchTree.insert(9);
+        searchTree.insert(4);
         searchTree.insert(10);
+        searchTree.insert(2);
+        searchTree.insert(6);
+        searchTree.insert(9);
         searchTree.insert(11);
-        //insert(12 - inf)
 
-        searchTree.toSortedArrayList();
-        System.out.println(counter);
+        var x = searchTree.getAllLeaves();
+
+        for(SearchTree<Integer> leaf : x) {
+            System.out.println(leaf.key);
+        }
+
 
 
 
