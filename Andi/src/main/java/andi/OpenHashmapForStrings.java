@@ -1,11 +1,8 @@
 package andi;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.LinkedList;
+
 
 public class OpenHashmapForStrings {
     private final int m;
@@ -25,9 +22,11 @@ public class OpenHashmapForStrings {
         String line1;
 
         long start = System.nanoTime();
-
-        while((line1 = br1.readLine()) != null) {
-            hashTable.insertLinear(line1);
+        //int counter1 = 1;
+        while ((line1 = br1.readLine()) != null) {
+            hashTable.insertLinear(line1, "linear");
+            //System.out.println(counter1);
+            //counter1++;
         }
         br1.close();
         System.out.println("Zeit für Einfügen der Wörter: " + (System.nanoTime() - start));
@@ -39,8 +38,8 @@ public class OpenHashmapForStrings {
         String line2;
         int counter = 0;
         start = System.nanoTime();
-        while((line2 = br2.readLine()) != null) {
-            if (hashTable.search(line2, "linear") != -1) {
+        while ((line2 = br2.readLine()) != null) {
+            if (hashTable.search(line2, "linear") == -1) {
                 counter++;
             }
         }
@@ -51,9 +50,10 @@ public class OpenHashmapForStrings {
 
     }
 
-    public void insertLinear(String s) throws Exception {
-        for (int i = 0; i < m; i++) {
-            int j = linear(s, i);
+    public void insertLinear(String s, String sondierung) throws Exception {
+        int i = 0;
+        while (i < m) {
+            int j = sondierung(sondierung, i);
             if (j == -1) {
                 throw new Exception("Sondierung nicht gefunden.");
             }
@@ -102,16 +102,31 @@ public class OpenHashmapForStrings {
     }
 
 
-    private long stringToLong(String string) {
+    /*private long stringToLong(String string) {
         return string.chars().asLongStream().reduce(0, Long::sum);
+    }
+   */
+
+    private static long stringToValue(String element) {
+        char[] chars = element.toCharArray();
+
+        long value = 1;
+        int exponent = chars.length - 1;
+
+        for (char letter : chars) {
+            value = value + (int) (letter * Math.pow(128, exponent));
+            exponent--;
+        }
+
+        return value;
     }
 
     private int h(String key) {
-        return Math.floorMod(stringToLong(key), m);
+        return Math.floorMod(stringToValue(key), m);
     }
 
     private int h2(String s) {
-        return 1 + (Math.floorMod(stringToLong(s), m) % (m - 1));
+        return 1 + (Math.floorMod(stringToValue(s), m) % (m - 1));
     }
 
     private int sondierung(String s, int i) {
