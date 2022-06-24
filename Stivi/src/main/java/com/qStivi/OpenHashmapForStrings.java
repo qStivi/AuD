@@ -151,7 +151,7 @@ public class OpenHashmapForStrings {
     public int linearInsert(String string) {
         var i = 0;
         while (i < hashMap.length) {
-            var h = (h(stringToLong(string)) + i) % hashMap.length;
+            var h = (int) ((h(string) + i) % (long) hashMap.length);
             if (hashMap[h] == nulls || hashMap[h] == deleteds) {
                 hashMap[h] = string;
                 return h;
@@ -170,7 +170,7 @@ public class OpenHashmapForStrings {
     public int quadraticInsert(String string) {
         var i = 0;
         while (i < hashMap.length) {
-            var h = (int) (h(stringToLong(string)) + ((1d / 2d) * i) + ((1d / 2d) * Math.pow(i, 2))) % hashMap.length;
+            var h = (int) (h(string) + ((1d / 2d) * i) + ((1d / 2d) * Math.pow(i, 2))) % hashMap.length;
             if (hashMap[h] == nulls || hashMap[h] == deleteds) {
                 hashMap[h] = string;
                 return h;
@@ -189,9 +189,7 @@ public class OpenHashmapForStrings {
     public int doubleInsert(String string) {
         var i = 0;
         while (i < hashMap.length) {
-            var stringHash = stringToLong(string);
-            var h2 = 1 + (stringHash % (hashMap.length - 1));
-            var e = h(stringHash) + (i * h2);
+            var e = h(string) + (i * h2(string));
             var h = Math.floorMod(e, hashMap.length);
             if (hashMap[h] == nulls || hashMap[h] == deleteds) {
                 hashMap[h] = string;
@@ -213,7 +211,7 @@ public class OpenHashmapForStrings {
     public Integer search(String string) {
         var i = 0;
         while (i < hashMap.length) {
-            var j = (h(stringToLong(string)) + i) % hashMap.length;
+            var j = (h(string) + i) % hashMap.length;
             if (hashMap[j] == null) {
                 return null;
             }
@@ -229,7 +227,11 @@ public class OpenHashmapForStrings {
         throw new RuntimeException("Not implemented yet!");
     }
 
-    public int h(long n) {
-        return Math.floorMod(n, hashMap.length);
+    public int h(String string) {
+        return (int) (stringToLong(string) % (long) hashMap.length);
+    }
+
+    public int h2(String string) {
+        return 1 + Math.floorMod((stringToLong(string)), (hashMap.length - 1));
     }
 }
