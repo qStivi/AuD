@@ -18,12 +18,12 @@ public class HashmapForStrings {
     }
 
     /*
-    Insert size thousand:       60109917ns
-    Insert size ten thousand:   32325959ns
+    Insert size thousand:       204435208ns
+    Insert size ten thousand:   199472000ns
     Number of Words not found:  1814
-    Search size thousand:       1294388333ns
+    Search size thousand:       9564333ns
     Number of Words not found:  1814
-    Search size ten thousand:   4829617291ns
+    Search size ten thousand:   5543666ns
      */
     public static void main(String[] args) throws IOException, URISyntaxException {
         var thousand = new HashmapForStrings(1000);
@@ -83,31 +83,33 @@ public class HashmapForStrings {
         return string.chars().asLongStream().reduce(0, Long::sum);
     }
 
+    private static long stringToValue(String element) {
+        char[] chars = element.toCharArray();
+
+        long value = 1;
+        int exponent = chars.length - 1;
+
+        for (char letter : chars) {
+            value = value + (int) (letter * Math.pow(128, exponent));
+            exponent--;
+        }
+
+        return value;
+    }
+
     public int h(long n) {
         return Math.floorMod(n, hashMap.length);
     }
 
     public void insert(String string) {
-        hashMap[h(stringToLong(string))].add(string);
+        hashMap[h(stringToValue(string))].add(string);
     }
 
     public boolean search(String string) {
-        for (ArrayList<String> strings : hashMap) {
-            for (String s : strings) {
-                if (s.equals(string)) return true;
-            }
-        }
-        return false;
+        return hashMap[h(stringToValue(string))].contains(string);
     }
 
     public void delete(String string) {
-        for (ArrayList<String> strings : hashMap) {
-            for (int i = 0; i < strings.size(); i++) {
-                if (strings.get(i).equals(string)) {
-                    strings.remove(i);
-                    return;
-                }
-            }
-        }
+        hashMap[h(stringToValue(string))].remove(string);
     }
 }

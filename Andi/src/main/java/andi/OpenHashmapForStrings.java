@@ -2,15 +2,19 @@ package andi;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.Arrays;
 
 
 public class OpenHashmapForStrings {
     private final int m;
+    private final String deleted = "deleted";
+    private final String nulls = "null";
     private final String[] hashMap;
 
     public OpenHashmapForStrings(int m) {
         this.m = m;
         this.hashMap = new String[m];
+        Arrays.fill(hashMap, nulls);
     }
 
     public static void main(String[] args) throws Exception {
@@ -22,11 +26,11 @@ public class OpenHashmapForStrings {
         String line1;
 
         long start = System.nanoTime();
-        //int counter1 = 1;
+        int counter1 = 1;
         while ((line1 = br1.readLine()) != null) {
             hashTable.insertLinear(line1, "linear");
-            //System.out.println(counter1);
-            //counter1++;
+            System.out.println(counter1);
+            counter1++;
         }
         br1.close();
         System.out.println("Zeit für Einfügen der Wörter: " + (System.nanoTime() - start));
@@ -57,7 +61,7 @@ public class OpenHashmapForStrings {
             if (j == -1) {
                 throw new Exception("Sondierung nicht gefunden.");
             }
-            if (hashMap[j] == null || hashMap[j].equals("")) {
+            if (hashMap[j] == nulls || hashMap[j] == deleted) {
                 hashMap[j] = s;
                 break;
             } else {
@@ -93,8 +97,8 @@ public class OpenHashmapForStrings {
         return (h(s) + i) % m; //Nochmal % m oder weglassen?
     }
 
-    public int quadratisch(String s, int i) {
-        return (h(s) + 1 / 2 * i + 1 / 2 * i * i) % m;
+    public double quadratisch(String s, int i) {
+        return (h(s) + ((1d / 2d) * i) + ((1d / 2d) * i * i)) % m;
     }
 
     public int doppelt(String s, int i) {
@@ -132,7 +136,7 @@ public class OpenHashmapForStrings {
     private int sondierung(String s, int i) {
         return switch (s) {
             case "linear" -> linear(s, i);
-            case "quadratisch" -> quadratisch(s, i);
+            case "quadratisch" -> (int) quadratisch(s, i);
             case "doppelt" -> doppelt(s, i);
             default -> -1;
         };
