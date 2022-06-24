@@ -134,8 +134,8 @@ public class HashmapForStrings {
 
     public static void main(String[] args) throws IOException {
 
-        initScrabbleWordMaps(new File("Julian/src/resources/AreMyFriendsCheating.txt"));
-        searchWordsInScrabbleWordMaps(new File("Julian/src/resources/AreMyFriendsCheating.txt"));
+        initScrabbleWordMaps(new File("/Users/julian/Documents/AuD/Julian/src/resources/OfficialScrabbleWordListGerman.txt"));
+        searchWordsInScrabbleWordMaps(new File("/Users/julian/Documents/AuD/Julian/src/resources/AreMyFriendsCheating.txt"));
     }
 
 }
