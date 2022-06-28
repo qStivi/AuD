@@ -812,6 +812,8 @@ public class SortTools {
 
         System.out.println(Arrays.toString(arr));
 
+        List<Integer> t = new ArrayList<>();
+
     }
 
 }

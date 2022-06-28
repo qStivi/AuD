@@ -41,23 +41,25 @@ public class OpenHashmapForStrings {
         BufferedReader br = new BufferedReader(new FileReader(file));
         String word;
 
+        System.out.println(System.currentTimeMillis());
         while((word = br.readLine()) != null) {
 
-            System.out.println(word);
+            //System.out.println(word);
 
-//            linearProbing200000.insert(word);
-//            System.out.println("Linear Probing 200000 OK");
-//            linearProbing1000000.insert(word);
-//            System.out.println("Linear Probing 1000000 OK");
-//            quadraticProbing200000.insert(word);
-//            System.out.println("Quadratic Probing 200000 OK");
-//            quadraticProbing1000000.insert(word);
-//            System.out.println("Quadratic Probing 1000000 OK");
+            linearProbing200000.insert(word);
+            //System.out.println("Linear Probing 200000 OK");
+            linearProbing1000000.insert(word);
+            //System.out.println("Linear Probing 1000000 OK");
+            quadraticProbing200000.insert(word);
+            //System.out.println("Quadratic Probing 200000 OK");
+            quadraticProbing1000000.insert(word);
+            //System.out.println("Quadratic Probing 1000000 OK");
             doubleHashing200000.insert(word);
-            System.out.println("Double Hashing 200000 OK");
-//            doubleHashing1000000.insert(word);
-//            System.out.println("Double Hashing 1000000 OK");
+            //System.out.println("Double Hashing 200000 OK");
+            doubleHashing1000000.insert(word);
+            //System.out.println("Double Hashing 1000000 OK");
         }
+        System.out.println(System.currentTimeMillis());
     }
 
     public static void searchWordsInScrabbleWordMaps(File file) throws IOException {
@@ -141,17 +143,17 @@ public class OpenHashmapForStrings {
     }
 
     private static long stringToValue(String element) {
-        char[] chars = element.toCharArray();
+//        char[] chars = element.toCharArray();
+//
+//        long value = 1;
+//        int exponent = chars.length - 1;
+//
+//        for(char letter : chars) {
+//            value = value + (int) (letter * Math.pow(128, exponent));
+//            exponent--;
+//        }
 
-        long value = 1;
-        int exponent = chars.length - 1;
-
-        for(char letter : chars) {
-            value = value + (int) (letter * Math.pow(128, exponent));
-            exponent--;
-        }
-
-        return value;
+        return Math.abs(element.hashCode());
     }
 
     public int insert(String key) {
