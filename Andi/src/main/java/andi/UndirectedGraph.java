@@ -21,52 +21,48 @@ public class UndirectedGraph {
     }
 
     public static void main(String[] args) throws IOException {
-        UndirectedGraph graph = new UndirectedGraph(34);
+        UndirectedGraph graph1 = new UndirectedGraph(34);
 
         FileReader fr1 = new FileReader("out.ucidata-zachary.sec");
         BufferedReader br1 = new BufferedReader(fr1);
 
         String line1;
         while ((line1 = br1.readLine()) != null) {
-            StringBuilder number = new StringBuilder();
-            for (int i = 0; i < line1.length(); i++) {
-                if (line1.charAt(i) == ' ') {
-                    graph.addVertex(Integer.parseInt(number.toString()));
-                    number = new StringBuilder();
-                } else {
-                    number.append(line1.charAt(i));
-                }
-            }
-            graph.addVertex(Integer.parseInt(number.toString()));
+            String[] vertices = line1.split(" ");
+            int vertex1 = Integer.parseInt(vertices[0]);
+            int vertex2 = Integer.parseInt(vertices[1]);
+            graph1.addVertex(vertex1);
+            graph1.addVertex(vertex2);
+            graph1.addEdge(vertex1, vertex2);
+
         }
         br1.close();
 
-        FileReader fr2 = new FileReader("out.ucidata-zachary.sec");
+        UndirectedGraph graph2 = new UndirectedGraph(500000);
+
+        FileReader fr2 = new FileReader("soc-twitter-follows.txt");
         BufferedReader br2 = new BufferedReader(fr2);
 
         String line2;
         while ((line2 = br2.readLine()) != null) {
-            StringBuilder number1 = new StringBuilder();
-            StringBuilder number = new  StringBuilder();
-            for (int i = 0; i < line2.length(); i++) {
-                if (line2.charAt(i) == ' ') {
-                    number1 = number;
-                    number = new StringBuilder();
-                } else {
-                    number.append(line2.charAt(i));
-                }
-            }
-            graph.addEdge(Integer.parseInt(number1.toString()), Integer.parseInt(number.toString()));
+            String[] vertices = line2.split(" ");
+            int vertex1 = Integer.parseInt(vertices[0]);
+            int vertex2 = Integer.parseInt(vertices[1]);
+
+            graph2.addVertex(vertex1);
+            graph2.addVertex(vertex2);
+            graph2.addEdge(vertex1, vertex2);
+
         }
         br2.close();
 
-        for (Integer ele : graph.al[0]) {
+        for (Integer ele : graph2.al[0]) {
             System.out.println(ele);
         }
     }
 
     public void addVertex(Integer i) {
-        if (linSearch(i) == -1) {
+        if (linSearch(i) == -2) {
         for (int j = 0; j < al.length; j++) {
             if (al[j].isEmpty()) {
                 al[j].add(i);
@@ -91,10 +87,10 @@ public class UndirectedGraph {
         al[linSearch(j)].remove(i);
     }
 
-    private int linSearch(Integer i) {
+    public int linSearch(Integer i) {
         for (int j = 0; j < al.length; j++) {
             if (al[j].isEmpty()) {
-                return -1;
+                return -2;
             }
             if (al[j].get(0) == i) {
                 return j;
