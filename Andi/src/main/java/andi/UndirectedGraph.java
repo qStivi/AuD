@@ -21,7 +21,7 @@ public class UndirectedGraph {
     }
 
     public static void main(String[] args) throws IOException {
-       UndirectedGraph graph1 = new UndirectedGraph(34);
+        UndirectedGraph graph1 = new UndirectedGraph(34);
 
         FileReader fr1 = new FileReader("out.ucidata-zachary.sec");
         BufferedReader br1 = new BufferedReader(fr1);
@@ -64,12 +64,12 @@ public class UndirectedGraph {
 
     public void addVertex(Integer i) {
         if (linSearch(i) == -2) {
-        for (int j = 0; j < al.length; j++) {
-            if (al[j].isEmpty()) {
-                al[j].add(i);
-                break;
+            for (int j = 0; j < al.length; j++) {
+                if (al[j].isEmpty()) {
+                    al[j].add(i);
+                    break;
+                }
             }
-        }
         }
     }
 
