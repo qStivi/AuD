@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public class UndirectedGraph {
 
-    private ArrayList<Integer>[] al;
+    public ArrayList<Integer>[] al;
 
     public UndirectedGraph() {
         this.al = null;
@@ -44,6 +44,7 @@ public class UndirectedGraph {
         BufferedReader br2 = new BufferedReader(fr2);
 
         String line2;
+        int counter = 1;
         while ((line2 = br2.readLine()) != null) {
             String[] vertices = line2.split(" ");
             int vertex1 = Integer.parseInt(vertices[0]);
@@ -51,6 +52,8 @@ public class UndirectedGraph {
             graph2.addVertex(vertex1);
             graph2.addVertex(vertex2);
             graph2.addEdge(vertex1, vertex2);
+            System.out.println(counter);
+            counter++;
         }
         br2.close();
 
