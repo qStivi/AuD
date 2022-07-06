@@ -9,17 +9,37 @@ import java.util.ArrayList;
 
 public class UndirectedGraph {
 
-    ArrayList<Vertex> graph;
+    ArrayList<Vertex> vertices;
 
     public UndirectedGraph() {
-        graph = new ArrayList<>();
+        vertices = new ArrayList<>();
     }
 
     public UndirectedGraph(Integer n) {
-        graph = new ArrayList<>();
+        vertices = new ArrayList<>();
         for (var i = 0; i <= n; i++) {
-            graph.add(new Vertex(null));
+            vertices.add(new Vertex(null));
         }
+    }
+
+    public static UndirectedGraph createUciGraph() throws Exception {
+        var uciDataZachary = getUci();
+        if (uciDataZachary == null) throw new Exception("ERROR!");
+
+        var maxUci = 0;
+        for (int[] edges : uciDataZachary) {
+            if (edges[0] > maxUci) maxUci = edges[0];
+            if (edges[1] > maxUci) maxUci = edges[1];
+        }
+
+        var uciGraph = new UndirectedGraph(maxUci);
+        for (int[] edges : uciDataZachary) {
+            uciGraph.addVertex(edges[0]);
+            uciGraph.addVertex(edges[1]);
+            uciGraph.addEdge(edges[0], edges[1]);
+        }
+
+        return uciGraph;
     }
 
     public static void main(String[] args) throws Exception {
@@ -44,8 +64,8 @@ public class UndirectedGraph {
             uciGraph.addVertex(edges[1]);
             uciGraph.addEdge(edges[0], edges[1]);
         }
-        System.out.println("Vertex: " + uciGraph.graph.get(1).value);
-        for (Vertex vertex : uciGraph.graph.get(1).adjacencyList) {
+        System.out.println("Vertex: " + uciGraph.vertices.get(1).value);
+        for (Vertex vertex : uciGraph.vertices.get(1).adjacencyList) {
             System.out.println(vertex.value);
         }
 
@@ -55,8 +75,8 @@ public class UndirectedGraph {
             twitterGraph.addVertex(edges[1]);
             twitterGraph.addEdge(edges[0], edges[1]);
         }
-        System.out.println("Vertex: " + twitterGraph.graph.get(35).value);
-        for (Vertex vertex : twitterGraph.graph.get(35).adjacencyList) {
+        System.out.println("Vertex: " + twitterGraph.vertices.get(35).value);
+        for (Vertex vertex : twitterGraph.vertices.get(35).adjacencyList) {
             System.out.println(vertex.value);
         }
     }
@@ -104,16 +124,16 @@ public class UndirectedGraph {
     }
 
     public void addVertex(Integer i) {
-        graph.get(i).value = i;
+        vertices.get(i).value = i;
     }
 
     public void addEdge(Integer i, Integer j) {
-        graph.get(i).adjacencyList.add(graph.get(j));
-        graph.get(j).adjacencyList.add(graph.get(i));
+        vertices.get(i).adjacencyList.add(vertices.get(j));
+        vertices.get(j).adjacencyList.add(vertices.get(i));
     }
 
-    public void deleteEdge(Integer i, Integer j) throws Exception {
-        graph.get(i).adjacencyList.remove(graph.get(j));
-        graph.get(j).adjacencyList.remove(graph.get(i));
+    public void deleteEdge(Integer i, Integer j) {
+        vertices.get(i).adjacencyList.remove(vertices.get(j));
+        vertices.get(j).adjacencyList.remove(vertices.get(i));
     }
 }
