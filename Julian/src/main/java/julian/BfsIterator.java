@@ -63,14 +63,16 @@ public class BfsIterator {
 
         Random random = new Random();
         UndirectedGraph graph1 = new UndirectedGraph(new File("/Users/julian/Documents/AuD/Julian/src/resources/out.ucidata-zachary.sec"));
-        UndirectedGraph graph2 =  new UndirectedGraph(new File("/Users/julian/Documents/AuD/Julian/src/resources/soc-twitter-follows.txt"));
+        //UndirectedGraph graph2 =  new UndirectedGraph(new File("/Users/julian/Documents/AuD/Julian/src/resources/soc-twitter-follows.txt"));
         ArrayList<Integer> vertices1 = graph1.getVertices();
-        ArrayList<Integer> vertices2 = graph2.getVertices();
-        BfsIterator bfs1 = new BfsIterator(graph1, vertices1.get(random.nextInt(0, vertices1.size() - 1)));
-        BfsIterator bfs2 = new BfsIterator(graph2, vertices2.get(random.nextInt(0, vertices2.size() - 1)));
+//        ArrayList<Integer> vertices2 = graph2.getVertices();
+        //BfsIterator bfs1 = new BfsIterator(graph1, vertices1.get(random.nextInt(0, vertices1.size() - 1)));
+        BfsIterator bfs1 = new BfsIterator(graph1, 5);
+//        BfsIterator bfs2 = new BfsIterator(graph2, vertices2.get(random.nextInt(0, vertices2.size() - 1)));
 
         Integer nextNode = bfs1.next();
         while(nextNode != null) {
+            System.out.println(nextNode);
             nextNode = bfs1.next();
         }
 
@@ -78,13 +80,13 @@ public class BfsIterator {
             System.out.println(bfs1.dist(vertex));
         }
 
-        nextNode = bfs2.next();
-        while(nextNode != null) {
-            nextNode = bfs2.next();
-        }
-
-        for(Integer vertex : vertices2)  {
-            System.out.println(bfs2.dist(vertex));
-        }
+//        nextNode = bfs2.next();
+//        while(nextNode != null) {
+//            nextNode = bfs2.next();
+//        }
+//
+//        for(Integer vertex : vertices2)  {
+//            System.out.println(bfs2.dist(vertex));
+//        }
     }
 }
