@@ -12,9 +12,9 @@ public class DfsAlgos {
     private HashMap<Integer, Integer> pre = new HashMap<>();
 
     public static void main(String[] args) throws Exception {
-        DirectedGraph graph1 = new DirectedGraph(5);
+        DirectedGraph graph1 = new DirectedGraph(11);
 
-        FileReader fr1 = new FileReader("test");
+        FileReader fr1 = new FileReader("outbnet.sec");
         BufferedReader br1 = new BufferedReader(fr1);
 
         String line1;
@@ -29,37 +29,41 @@ public class DfsAlgos {
         br1.close();
 
         DfsAlgos dfs = new DfsAlgos();
-        dfs.detectCycle(graph1).forEach(System.out::println);
+        dfs.topSort(graph1).forEach(System.out::println);
+        //dfs.detectCycle(graph1).forEach(System.out::println);
     }
 
     public LinkedList<Integer> topSort(DirectedGraph g) {
         LinkedList<Integer> result = new LinkedList<>();
         for (int i = 0; i < g.al.size(); i++) {
-            if (g.al.get(i).get(0) != null) {
+            if (!g.al.get(i).isEmpty() && g.al.get(i).get(0) != null) {
                 color.put(g.al.get(i).get(0), "white");
                 pre.put(g.al.get(i).get(0), null);
             }
         }
         for (int i = 0; i < g.al.size(); i++) {
-            if (color.get(g.al.get(i).get(0)).equals("white")) {
-                result.add(g.al.get(i).get(0));
-                dfsViseted(g, g.al.get(i).get(0));
+            if (!g.al.get(i).isEmpty() && color.get(g.al.get(i).get(0)).equals("white")) {
+                dfsViseted(g, g.al.get(i).get(0), result);
             }
-            if (color.get(g.al.get(i).get(0)).equals("grey")) {
+            if (result.contains(Integer.MIN_VALUE)) {
                 return null;
             }
         }
         return result;
     }
 
-    private void dfsViseted(DirectedGraph g, Integer u) {
+    private void dfsViseted(DirectedGraph g, Integer u, LinkedList<Integer> list) {
         color.put(u, "grey");
         for (Integer v : g.al.get(u)) {
             if (color.get(v).equals("white")) {
                 pre.put(v, u);
-                dfsViseted(g, v);
+                dfsViseted(g, v, list);
+            } else if (color.get(v).equals("grey") && !v.equals(u)) {
+                list = new LinkedList<>();
+                list.add(Integer.MIN_VALUE);
             }
         }
+        list.add(g.al.get(u).get(0));
         color.put(u, "black");
     }
 
