@@ -12,9 +12,9 @@ public class DfsAlgos {
     private HashMap<Integer, Integer> pre = new HashMap<>();
 
     public static void main(String[] args) throws Exception {
-        DirectedGraph graph1 = new DirectedGraph(11);
+        DirectedGraph graph1 = new DirectedGraph(5000);
 
-        FileReader fr1 = new FileReader("outbnet.sec");
+        FileReader fr1 = new FileReader("outmoreno_taro_taro.sec");
         BufferedReader br1 = new BufferedReader(fr1);
 
         String line1;
@@ -30,7 +30,7 @@ public class DfsAlgos {
 
         DfsAlgos dfs = new DfsAlgos();
         dfs.topSort(graph1).forEach(System.out::println);
-        //dfs.detectCycle(graph1).forEach(System.out::println);
+        dfs.detectCycle(graph1).forEach(System.out::println);
     }
 
     public LinkedList<Integer> topSort(DirectedGraph g) {
@@ -59,11 +59,10 @@ public class DfsAlgos {
                 pre.put(v, u);
                 dfsViseted(g, v, list);
             } else if (color.get(v).equals("grey") && !v.equals(u)) {
-                list = new LinkedList<>();
-                list.add(Integer.MIN_VALUE);
+                list.addFirst(Integer.MIN_VALUE);
             }
         }
-        list.add(g.al.get(u).get(0));
+        list.addFirst(u);
         color.put(u, "black");
     }
 
@@ -73,7 +72,7 @@ public class DfsAlgos {
             if (color.get(v).equals("white")) {
                 pre.put(v, u);
                 dfsViseted2(g, v, list);
-            } else if (color.get(v).equals("grey") && !v.equals(u)) {
+            } else if (color.get(v).equals("grey") && !v.equals(u) && list.isEmpty()) {
                 list.add(v);
                 Integer temp = u;
                 while (!temp.equals(v)) {
