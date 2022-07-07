@@ -39,7 +39,9 @@ public class DirectedGraph {
     }
 
     public void addVertex(Integer i) {
-        this.edges.put(i, new HashSet<>());
+        if(!edges.containsKey(i)) {
+            this.edges.put(i, new HashSet<>());
+        }
     }
 
     public void addEdge(Integer i, Integer j) {
