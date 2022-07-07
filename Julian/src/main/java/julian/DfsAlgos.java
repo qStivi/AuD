@@ -139,9 +139,9 @@ public class DfsAlgos {
         //null
 
 
-        DfsAlgos dfsAlgos = new DfsAlgos();
-        System.out.println(dfsAlgos.topSort(graph));
-        System.out.println(dfsAlgos.detectCycle(graph));
+//        DfsAlgos dfsAlgos = new DfsAlgos();
+//        System.out.println(dfsAlgos.topSort(graph));
+//        System.out.println(dfsAlgos.detectCycle(graph));
 
     }
 }

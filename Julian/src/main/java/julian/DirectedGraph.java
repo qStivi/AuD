@@ -58,40 +58,9 @@ public class DirectedGraph {
         return this.edges.get(v);
     }
 
-    public void invertEdges() {
-
-        HashMap<Integer, HashSet<Integer>> invertEdges = new HashMap<>();
-
-        for(Integer v : this.edges.keySet()) {
-            invertEdges.put(v, new HashSet<>());
-        }
-
-        for(Map.Entry<Integer, HashSet<Integer>> entry : this.edges.entrySet()) {
-            for(Integer v : entry.getValue()) {
-                invertEdges.get(v).add(entry.getKey());
-            }
-        }
-
-        this.edges = invertEdges;
-    }
-
-
     @Override
     public String toString() {
         return this.edges.toString();
-    }
-
-    public static void main(String[] args) throws IOException {
-
-        DirectedGraph graph = new DirectedGraph(4);
-        graph.addEdge(1, 2);
-        graph.addEdge(1, 3);
-        graph.addEdge(2, 4);
-        graph.addEdge(3, 4);
-
-        graph.invertEdges();
-//        DirectedGraph graph = new DirectedGraph(new File("/Users/julian/Documents/AuD/Julian/src/resources/out.ucidata-zachary.sec"));
-        System.out.println(graph);
     }
 
 }
