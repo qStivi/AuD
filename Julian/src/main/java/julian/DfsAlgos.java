@@ -1,80 +1,102 @@
 package julian;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 public class DfsAlgos {
 
     HashMap<Integer, Integer> assignedVertexColor;
-    HashMap<ArrayList<Integer>, Integer> assignedEdgeColor;
-    HashMap<Integer, Integer> finishedTime;
-    int time;
+    HashMap<Integer, Integer> parentNode;
+    boolean circleDetected;
+    LinkedList<Integer> list;
 
     private int getVertexColor(Integer v) {
         return this.assignedVertexColor.get(v);
     }
-
     private void setVertexColor(Integer v, int color) {
         this.assignedVertexColor.put(v, color);
     }
-
-    private void setEdgeColor(Integer u, Integer v, int color) {
-        ArrayList<Integer> edge = new ArrayList<>(2);
-        edge.add(0, u);
-        edge.add(1, v);
-        this.assignedEdgeColor.put(edge, color);
+    private void setParentNode(Integer v, Integer u) {
+        this.parentNode.put(v, u);
+    }
+    private Integer getParentNode(Integer v) {
+        return this.parentNode.get(v);
     }
 
-    public LinkedList<Integer> dfs(DirectedGraph g) {
 
-        LinkedList<Integer> list = new LinkedList<>();
-        this.finishedTime = new HashMap<>();
+    public LinkedList<Integer> dfs(DirectedGraph g, boolean reconstructCircle) {
+
+        this.parentNode = new HashMap<>();
         this.assignedVertexColor = new HashMap<>();
-        this.assignedEdgeColor = new HashMap<>();
+        this.circleDetected = false;
+        this.list = new LinkedList<>();
 
         for(Integer v : g.getVertices()) {
             setVertexColor(v, 0);
         }
 
-        this.time = 0;
-
         for(Integer v : g.getVertices()) {
+
+            if(circleDetected) {
+                break;
+            }
+
             if(getVertexColor(v) == 0) {
-                dfsVisit(g, v, list);
+                dfsVisit(g, v, reconstructCircle);
             }
         }
 
-        return list;
+        return this.list;
     }
 
-    public void dfsVisit(DirectedGraph g, Integer u, LinkedList<Integer> list) {
+    public void dfsVisit(DirectedGraph g, Integer u, boolean reconstructCircle) {
 
         setVertexColor(u, 1);
 
-        time = time + 1;
-
         for(Integer v : g.getNeighbors(u)) {
-            setEdgeColor(u, v, getVertexColor(v));
+            setParentNode(v, u);
+
+            if(getVertexColor(v) == 1) {
+                circleDetected = true;
+                if(reconstructCircle) {
+                    this.list = constructCircle(v);
+                }
+                break;
+            }
 
             if(getVertexColor(v) == 0) {
-                dfsVisit(g, v, list);
+                dfsVisit(g, v, reconstructCircle);
             }
         }
 
         setVertexColor(u, 2);
-        time = time + 1;
-        setFinishedTime(u, time);
-        list.addFirst(u);
+
+        if(!reconstructCircle) {
+            this.list.addFirst(u);
+        }
+    }
+
+    public LinkedList<Integer> constructCircle(Integer startNode) {
+
+        LinkedList<Integer> circle = new LinkedList<>();
+        Integer currentNode = getParentNode(startNode);
+
+        while(!Objects.equals(currentNode, startNode)) {
+            circle.addFirst(currentNode);
+            currentNode = getParentNode(currentNode);
+        }
+
+        circle.addFirst(startNode);
+        return circle;
     }
 
     public LinkedList<Integer> topSort(DirectedGraph g) {
 
-        LinkedList<Integer> output = dfs(g);
+        LinkedList<Integer> output = dfs(g, false);
 
-        for(int color : assignedEdgeColor.values()) {
-            if(color == 1) {
-                return null;
-            }
+        if(circleDetected) {
+            return null;
         }
 
         return output;
@@ -82,122 +104,39 @@ public class DfsAlgos {
 
     public LinkedList<Integer> detectCycle(DirectedGraph g) {
 
-        dfs(g);
+        LinkedList<Integer> output = dfs(g, true);
 
-        ArrayList<Integer> nodesOrderedByfValue = new ArrayList<>(g.getVertices());
-        nodesOrderedByfValue.sort((v1, v2) -> getFinishedTime(v2) - getFinishedTime(v1));
-
-        g.invertEdges();
-
-        this.assignedVertexColor = new HashMap<>();
-        this.assignedEdgeColor = new HashMap<>();
-
-        for(Integer v : g.getVertices()) {
-            setVertexColor(v, 0);
-        }
-
-
-        for (Integer v : nodesOrderedByfValue) {
-            if (getVertexColor(v) == 0) {
-                dfsVisitCycleHelper(g, v);
-            }
-        }
-
-        Integer v;
-
-        LinkedList<Integer> circleCandidates = new LinkedList<>();
-
-        for(Map.Entry<ArrayList<Integer>, Integer> edge : this.assignedEdgeColor.entrySet()) {
-            if(edge.getValue() == 0) {
-
-                Integer v1 = edge.getKey().get(0);
-                Integer v2 = edge.getKey().get(1);
-
-                circleCandidates.add(v2);
-                circleCandidates.add(v1);
-            }
-        }
-
-        if(circleCandidates.isEmpty()) {
+        if(!circleDetected) {
             return null;
-        }
-
-        return getCircle(circleCandidates);
-    }
-
-    private LinkedList<Integer> getCircle(LinkedList<Integer> list) {
-
-        for(int i = 0; i < list.size(); i++) {
-            for(int j = i + 1; j < list.size(); j++) {
-                if(list.get(i).equals(list.get(j))) {
-                    return cutSubList(list, i, j - 1);
-                }
-            }
-        }
-
-        return cutSubList(list, 0, 1);
-    }
-
-    private LinkedList<Integer> cutSubList(LinkedList<Integer> list, int start, int end) {
-
-        LinkedList<Integer> output = new LinkedList<>();
-
-        for(int i = start; i < end + 1; i++) {
-            output.add(list.get(i));
         }
 
         return output;
     }
 
-    public void dfsVisitCycleHelper(DirectedGraph g, Integer u) {
 
-        setVertexColor(u, 1);
 
-        for(Integer v : g.getNeighbors(u)) {
-            setEdgeColor(u, v, getVertexColor(v));
-
-            if(getVertexColor(v) == 0) {
-                dfsVisitCycleHelper(g, v);
-            }
-        }
-
-        setVertexColor(u, 2);
-    }
-
-    private void setFinishedTime(Integer v, int time) {
-        this.finishedTime.put(v, time);
-    }
-
-    private Integer getFinishedTime(Integer v) {
-        return this.finishedTime.get(v);
-    }
 
     public static void main(String[] args) throws IOException {
 
-        DirectedGraph graph = new DirectedGraph(5);
+//        DirectedGraph graph = new DirectedGraph(5);
 ////        graph.addEdge(1, 2);
-////        graph.addEdge(2, 3);
+////        graph.addEdge(2, 4);
+////        graph.addEdge(1, 3);
 ////        graph.addEdge(3, 4);
-////        graph.addEdge(4, 1);
 //
-        graph.addEdge(1, 2);
-        graph.addEdge(2, 3);
-        graph.addEdge(3, 5);
-        graph.addEdge(5, 3);
-        graph.addEdge(4, 5);
-        graph.addEdge(2, 4);
-        graph.addEdge(4, 1);
+//        graph.addEdge(1, 2);
+//        graph.addEdge(2, 3);
+//        graph.addEdge(3, 4);
+//        graph.addEdge(4, 5);
+//        graph.addEdge(5, 2);
 
-        //DirectedGraph graph = new DirectedGraph(new File("/Users/julian/Documents/AuD/Julian/src/resources/out.bnet_bnet.bnet"));
-        //DirectedGraph graph = new DirectedGraph(new File("/Users/julian/Documents/AuD/Julian/src/resources/out.maayan-figeys"));
-        //DirectedGraph graph = new DirectedGraph(new File("/Users/julian/Documents/AuD/Julian/src/resources/out.moreno_dense_comm"));
-        //DirectedGraph graph = new DirectedGraph(new File("/Users/julian/Documents/AuD/Julian/src/resources/out.moreno_taro_taro"));
-        //DirectedGraph graph = new DirectedGraph(new File("/Users/julian/Documents/AuD/Julian/src/resources/out.simple_simple.simple"));
-        //DirectedGraph graph = new DirectedGraph(new File("/Users/julian/Documents/AuD/Julian/src/resources/twitter_combined.txt"));
+        DirectedGraph graph = new DirectedGraph(new File("/Users/julian/Documents/AuD/Julian/src/resources/out.moreno_taro_taro"));
+
         DfsAlgos dfsAlgos = new DfsAlgos();
+        System.out.println(dfsAlgos.topSort(graph));
         System.out.println(dfsAlgos.detectCycle(graph));
-        //System.out.println(dfsAlgos.topSort(graph));
-        //System.out.println(dfsAlgos.topSort(graph));
+
+
 
     }
 }
