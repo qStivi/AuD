@@ -6,6 +6,12 @@ public class Vertex implements Comparable<Vertex> {
 
     public Integer value;
 
+    public Color color = Color.WHITE;
+
+    public long d = -1;
+    public long f = -1;
+
+    public Vertex pi = null;
     public ArrayList<Vertex> adjacencyList;
 
     public Vertex(Integer value) {

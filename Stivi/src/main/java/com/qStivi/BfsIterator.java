@@ -75,8 +75,5 @@ public class BfsIterator {
         }
     }
 
-    private enum Color {
-        WHITE, GRAY, BLACK
-    }
 
 }

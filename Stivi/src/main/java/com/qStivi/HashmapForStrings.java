@@ -79,10 +79,6 @@ public class HashmapForStrings {
 
     }
 
-    public long stringToLong(String string) {
-        return string.chars().asLongStream().reduce(0, Long::sum);
-    }
-
     private static long stringToValue(String element) {
         char[] chars = element.toCharArray();
 
@@ -95,6 +91,10 @@ public class HashmapForStrings {
         }
 
         return value;
+    }
+
+    public long stringToLong(String string) {
+        return string.chars().asLongStream().reduce(0, Long::sum);
     }
 
     public int h(long n) {
